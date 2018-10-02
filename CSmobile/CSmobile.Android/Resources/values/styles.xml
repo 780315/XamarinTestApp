@@ -27,4 +27,15 @@
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
     <item name="colorAccent">#FF4081</item>
   </style>
+  <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">#3F51B5</item>
+    <item name="colorPrimaryDark">#303F9F</item>
+    <item name="colorAccent">#FF4081</item>
+
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+
+  </style>
 </resources>
