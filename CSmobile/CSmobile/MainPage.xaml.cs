@@ -13,5 +13,11 @@ namespace CSmobile
         {
             InitializeComponent();
         }
+        private void GoToMenu(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            Application.Current.MainPage = login;
+            //await DisplayAlert("Click","Button has been clicked","OK");
+        }
     }
 }
