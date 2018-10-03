@@ -16,5 +16,10 @@ namespace CSmobile
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private void GoToMenu(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
