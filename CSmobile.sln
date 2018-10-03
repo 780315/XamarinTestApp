@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSmobile.Android", "CSmobil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSmobile.iOS", "CSmobile\CSmobile.iOS\CSmobile.iOS.csproj", "{6FAEAFF1-9B4B-4906-B7D7-F12A175FB9C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSmobile", "CSmobile\CSmobile\CSmobile.csproj", "{5EA93FEE-50CC-4028-AD86-3C94FEDA8F9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSmobile", "CSmobile\CSmobile\CSmobile.csproj", "{5EA93FEE-50CC-4028-AD86-3C94FEDA8F9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

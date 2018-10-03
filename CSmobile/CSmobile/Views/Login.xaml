@@ -7,7 +7,13 @@
             <Label Text="Welcome to the Menu!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            
+
+            <Label Text="Username" />
+            <Entry x:Name="Entry_username" Placeholder="username" />
+            <Label Text="Password" />
+            <Entry x:Name="Entry_password" IsPassword="true" />
+            <Button x:Name="Btn_SignIn" Text="Login"  Clicked="SignInProcedure" />
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
