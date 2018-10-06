@@ -1,5 +1,9 @@
 ﻿using System;
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
@@ -9,13 +13,15 @@ using Android.OS;
 using Android.Media;
 using Android.Graphics;
 using Android.Util;
+using System.Timers;
+using Xamarin.Forms;
 
 namespace CSmobile.Droid
 {
-    [Activity(Label = "CSmobile", Icon = "@mipmap/icon", Theme = "@style/FullScreenTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, ISurfaceHolderCallback, MediaPlayer.IOnPreparedListener
+    [Activity(Label = "CSmobile", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity // ISurfaceHolderCallback, MediaPlayer.IOnPreparedListener
     {
-
+        //Change theme to FullscreenTheme for splash screen
         private SurfaceView surfaceView;
         private ISurfaceHolder surfaceHolder;
         private MediaPlayer mediaPlayer;
@@ -25,68 +31,70 @@ namespace CSmobile.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
+           
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Main);
-            surfaceView = FindViewById<SurfaceView>(Resource.Id.surfaceView);
-            surfaceHolder = surfaceView.Holder;
-            surfaceHolder.AddCallback(this);
+            //SetContentView(Resource.Layout.Main);
+            //surfaceView = FindViewById<SurfaceView>(Resource.Id.surfaceView);
+            //surfaceHolder = surfaceView.Holder;
+            //surfaceHolder.AddCallback(this);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
-        }
-
-        public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Format format, int width, int height)
-        {
             
         }
 
-        public void SurfaceCreated(ISurfaceHolder holder)
-        {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.SetDisplay(surfaceHolder);
-            try
-            {
-                mediaPlayer.SetDataSource(VIDEO_PATH);
-                mediaPlayer.Prepare();
-                mediaPlayer.SetOnPreparedListener(this);
-
-            }
-            catch (Exception ex)
-            {
-                Log.Error("ERROR", ex.Message);
-            }
-        }
-
-        public void SurfaceDestroyed(ISurfaceHolder holder)
-        {
+        //public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Format format, int width, int height)
+        //{
             
-        }
+        //}
 
-        public void OnPrepared(MediaPlayer mp)
-        {
-            mediaPlayer.Start();
-        }
+        //public void SurfaceCreated(ISurfaceHolder holder)
+        //{
+        //    mediaPlayer = new MediaPlayer();
+        //    mediaPlayer.SetDisplay(surfaceHolder);
+        //    try
+        //    {
+        //        mediaPlayer.SetDataSource(VIDEO_PATH);
+        //        mediaPlayer.Prepare();
+        //        mediaPlayer.SetOnPreparedListener(this);
 
-        protected override void OnPause()
-        {
-            base.OnPause();
-            ReleaseMediaPlayer();
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error("ERROR", ex.Message);
+        //    }
+        //}
 
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            ReleaseMediaPlayer();
-        }
+        //public void SurfaceDestroyed(ISurfaceHolder holder)
+        //{
+            
+        //}
 
-        private void ReleaseMediaPlayer()
-        {
-            if(mediaPlayer != null)
-            {
-                mediaPlayer.Release();
-                mediaPlayer = null;
-            }
-        }
+        //public void OnPrepared(MediaPlayer mp)
+        //{
+        //    mediaPlayer.Start();
+        //}
+
+        //protected override void OnPause()
+        //{
+        //    base.OnPause();
+        //    ReleaseMediaPlayer();
+        //}
+
+        //protected override void OnDestroy()
+        //{
+        //    base.OnDestroy();
+        //    ReleaseMediaPlayer();
+        //}
+
+        //private void ReleaseMediaPlayer()
+        //{
+        //    if(mediaPlayer != null)
+        //    {
+        //        mediaPlayer.Release();
+        //        mediaPlayer = null;
+        //    }
+        //}
+        
     }
 }
 

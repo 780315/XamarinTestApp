@@ -12,7 +12,7 @@ namespace CSmobile
     {
         public MainPage()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
         private void GoToMenu(object sender, EventArgs e)
         {

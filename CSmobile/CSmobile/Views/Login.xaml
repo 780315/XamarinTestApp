@@ -4,15 +4,23 @@
              x:Class="CSmobile.Login">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to the Menu!"
+            <Label Text="Login Page"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="Username" />
-            <Entry x:Name="Entry_username" Placeholder="username" />
-            <Label Text="Password" />
-            <Entry x:Name="Entry_password" IsPassword="true" />
-            <Button x:Name="Btn_SignIn" Text="Login"  Clicked="SignInProcedure" />
+            <Label Text="Username" 
+                   VerticalOptions="CenterAndExpand"  />
+            <Entry x:Name="Entry_username" 
+                   Placeholder="username" />
+            <!--change position, below label-->
+            <Label Text="Password"
+                   VerticalOptions="CenterAndExpand" />
+            <Entry x:Name="Entry_password" 
+                   Placeholder="password" IsPassword="true" />
+            <!--change position, below label-->
+            <Button x:Name="Btn_SignIn" 
+                    Text="Login"  VerticalOptions="CenterAndExpand"  
+                    Clicked="SignInProcedure" />
 
         </StackLayout>
     </ContentPage.Content>
