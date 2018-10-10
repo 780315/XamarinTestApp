@@ -1,27 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CSmobile.Models"
              x:Class="CSmobile.Login">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Login Page"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-
-            <Label Text="Username" 
-                   VerticalOptions="CenterAndExpand"  />
-            <Entry x:Name="Entry_username" 
-                   Placeholder="username" />
-            <!--change position, below label-->
+    
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>        
+        <StackLayout Spacing="0" Padding="0">
+            <Image Source="logo.png"
+                   Margin="0, 20, 0, 0"
+                   WidthRequest="40"
+                   HorizontalOptions="Center"/>
+            <Label Text="Welcome"
+                   HorizontalOptions="CenterAndExpand"
+                   Margin="0, 5, 0, 0" 
+                   FontSize="26"/>
+            <Label Text="Please insert your name and password"
+                   HorizontalOptions="CenterAndExpand"
+                   Margin="0, 0, 0, 0" 
+                   FontSize="10"/>
+            <Label Text="Username"                    
+                   Margin="5, 15, 0, 0"/>
+            <Entry x:Name="username" />
             <Label Text="Password"
-                   VerticalOptions="CenterAndExpand" />
-            <Entry x:Name="Entry_password" 
-                   Placeholder="password" IsPassword="true" />
-            <!--change position, below label-->
-            <Button x:Name="Btn_SignIn" 
-                    Text="Login"  VerticalOptions="CenterAndExpand"  
-                    Clicked="SignInProcedure" />
-
+                   Margin="5, 0, 0, 0"/>
+            <Entry x:Name="password" 
+                   IsPassword="true" />
+            <Button x:Name="LogIn" Clicked="LogInProcedure" 
+                    Text="Login"  VerticalOptions="StartAndExpand"                     
+                    Margin="0, 5, 0, 0"/>
+            <Label Text="Forgot Password"
+                   Margin="5, 0, 0, 150"
+                   x:Name="Lbl_Click"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

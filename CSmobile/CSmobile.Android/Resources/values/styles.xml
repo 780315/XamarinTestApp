@@ -27,7 +27,7 @@
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
     <item name="colorAccent">#FF4081</item>
   </style>
-  <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+  <style name="FullScreenTheme" parent="Theme.AppCompat">
     <item name="colorPrimary">#3F51B5</item>
     <item name="colorPrimaryDark">#303F9F</item>
     <item name="colorAccent">#FF4081</item>

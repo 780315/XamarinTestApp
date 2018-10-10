@@ -1,10 +1,11 @@
 ﻿using CSmobile.Models;
+using CSmobile.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,26 +17,37 @@ namespace CSmobile
 		public Login ()
 		{
             InitializeComponent();
+            LblClick();
 		}
 
-        void SignInProcedure(object sender, EventArgs e)
+        void LblClick()
         {
-            User user = new User(Entry_username.Text, Entry_password.Text);
-
-            if(user.CheckInfo())
+            Lbl_Click.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                DisplayAlert("Login", "Login Success", "Oke");
+                Command = new Command(() =>
+                {
+                    DisplayAlert("Password Forgotten", "Password Reset", "OK");
+                })
+            });
+        }
+
+        async void LogInProcedure(object sender, EventArgs e)
+        {
+            User user = new User(username.Text, password.Text);
+            if (user.CheckInformation())
+            {                
+                await App.ApiServices.LoginAsync(user);
             }
             else
             {
-                DisplayAlert("Login", "Login Not Success, empty username or password", "Oke");
+                await DisplayAlert("Login", "Login Failed", "Ok");
             }
-
         }
 
+        
         /*private void OnLoginButtonClicked(object sender, EventArgs e)
-        {
+{
 
-        } */
+} */
     }
 }

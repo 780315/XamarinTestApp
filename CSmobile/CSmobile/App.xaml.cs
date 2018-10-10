@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSmobile.Service;
+using System;
 using System.Timers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,10 +9,11 @@ namespace CSmobile
 {
     public partial class App : Application
     {
+        static ApiServices apiServices;
         public App() 
         {
             InitializeComponent();
-            MainPage = new MainPage(); //Change main page for testing
+            MainPage = new Login(); 
         }
 
         protected override void OnStart()
@@ -27,6 +29,17 @@ namespace CSmobile
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+        public static ApiServices ApiServices
+        {
+            get
+            {
+                if (apiServices == null)
+                {
+                    apiServices = new ApiServices();
+                }
+                return apiServices;
+            }
         }
     }
 }

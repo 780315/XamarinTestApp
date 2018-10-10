@@ -6,28 +6,23 @@ namespace CSmobile.Models
 {
     public class User
     {
-        public string UserName { get; set; }
+        public int Id { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
 
         public User() { }
-
-        public User(string UserName, string Password)
+        public User(string Username, string Password)
         {
-            this.UserName = UserName;
-            this.Password = Password;
-
+            this.Username = Username;
+            this.Password = Password;    
         }
 
-        public bool CheckInfo()
+        public bool CheckInformation()
         {
-
-            if (!this.UserName.Equals("") && !this.Password.Equals(""))
-
+            if (!this.Username.Equals("") && !this.Password.Equals(""))
                 return true;
             else
                 return false;
-
-
         }
     }
 }
