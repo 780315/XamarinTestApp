@@ -14,12 +14,13 @@ namespace CSmobile
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Login : ContentPage
 	{
+        MainPage main = new MainPage();
 		public Login ()
 		{
             InitializeComponent();
             LblClick();
 		}
-
+        
         void LblClick()
         {
             Lbl_Click.GestureRecognizers.Add(new TapGestureRecognizer()
@@ -37,10 +38,19 @@ namespace CSmobile
             if (user.CheckInformation())
             {                
                 await App.ApiServices.LoginAsync(user);
+                if (App.ApiServices.loginStatus == true)
+                {
+                    await DisplayAlert("Login", "Login Successfull", "Ok");
+                    Application.Current.MainPage = main;
+                }
+                else
+                {
+                    await DisplayAlert("Login", "Login Failed", "Ok");
+                }
             }
             else
             {
-                await DisplayAlert("Login", "Login Failed", "Ok");
+                await DisplayAlert("Login", "Login Failed, fill the username and password fields!", "Ok");
             }
         }
 

@@ -6,16 +6,16 @@
 
     <StackLayout>
         
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="Start" />
+        <Label Text="Server List"
+           Margin="0, 30, 0, 0"
+           HorizontalOptions="Center" />
 
-        <Button Text="Go to Menu!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand"
-                Clicked="GoToMenu"
-                />
-       
+        <Button Text="GetAccount"
+                Margin="0,40,0,0"
+                Clicked="GetAccount"/>
+
+
+
     </StackLayout>
     
 </ContentPage>

@@ -14,10 +14,10 @@ namespace CSmobile
         {
             InitializeComponent();            
         }
-        private void GoToMenu(object sender, EventArgs e)
+        async void GetAccount(object sender, EventArgs e)
         {
-                    
-
+            await App.ApiServices.GetAccountInfo();
         }
+       
     }
 }
