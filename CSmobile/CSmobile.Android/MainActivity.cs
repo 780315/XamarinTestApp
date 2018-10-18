@@ -19,13 +19,13 @@ using Xamarin.Forms;
 namespace CSmobile.Droid
 {
     [Activity(Label = "CSmobile", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity // ISurfaceHolderCallback, MediaPlayer.IOnPreparedListener
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity //, ISurfaceHolderCallback, MediaPlayer.IOnPreparedListener
     {
         //Change theme to FullscreenTheme for splash screen
-        private SurfaceView surfaceView;
-        private ISurfaceHolder surfaceHolder;
-        private MediaPlayer mediaPlayer;
-        private const string VIDEO_PATH = "https://www.cs.team/wp-content/themes/csg-theme/assets/video/04.cs.team_BFX01.mp4"; //local path not working, with url link scale needs to be fixed.
+        //private SurfaceView surfaceView;
+        //private ISurfaceHolder surfaceHolder;
+        //private MediaPlayer mediaPlayer;
+        //private const string VIDEO_PATH = "https://www.cs.team/wp-content/themes/csg-theme/assets/video/04.cs.team_BFX01.mp4"; //local path not working, with url link scale needs to be fixed.
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -39,12 +39,12 @@ namespace CSmobile.Droid
             //surfaceHolder.AddCallback(this);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
-            
+
         }
 
         //public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Format format, int width, int height)
         //{
-            
+
         //}
 
         //public void SurfaceCreated(ISurfaceHolder holder)
@@ -55,18 +55,17 @@ namespace CSmobile.Droid
         //    {
         //        mediaPlayer.SetDataSource(VIDEO_PATH);
         //        mediaPlayer.Prepare();
-        //        mediaPlayer.SetOnPreparedListener(this);
-
+        //        mediaPlayer.SetOnPreparedListener(this);                               
         //    }
         //    catch (Exception ex)
         //    {
         //        Log.Error("ERROR", ex.Message);
         //    }
-        //}
+        //}       
 
         //public void SurfaceDestroyed(ISurfaceHolder holder)
         //{
-            
+
         //}
 
         //public void OnPrepared(MediaPlayer mp)
@@ -88,13 +87,13 @@ namespace CSmobile.Droid
 
         //private void ReleaseMediaPlayer()
         //{
-        //    if(mediaPlayer != null)
+        //    if (mediaPlayer != null)
         //    {
         //        mediaPlayer.Release();
         //        mediaPlayer = null;
         //    }
         //}
-        
+
     }
 }
 

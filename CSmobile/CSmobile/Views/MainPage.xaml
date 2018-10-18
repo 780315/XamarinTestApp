@@ -6,16 +6,19 @@
 
     <StackLayout>
         
-        <Label Text="Server List"
+        <Label Text="Menu" FontSize="16"
            Margin="0, 30, 0, 0"
-           HorizontalOptions="Center" />
-
-        <Button Text="GetAccount"
+           HorizontalOptions="Center" />        
+        
+        <Button Text="Tickets"
                 Margin="0,40,0,0"
-                Clicked="GetAccount"/>
+                Clicked="Tickets"/>
 
-
-
+        <Button Text="Contacts"                
+                Clicked="Contacts"/>
+        
+        <Button Text="Companies"                
+                Clicked="Companies"/>
     </StackLayout>
     
 </ContentPage>

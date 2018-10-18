@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CSmobile.Views.Contacts">
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Contacts"
+                Margin="0, 5, 0, 0" 
+                FontSize="22" 
+                HorizontalOptions="CenterAndExpand" />
+            
+            <StackLayout Orientation="Horizontal" >                
+                <Label Text="First Name"
+                       Margin="5, 15, 0, 0"/>                
+                <Entry x:Name="firstname" 
+                       Margin="-80,25,0,0"
+                       HorizontalOptions="FillAndExpand"
+                       MaxLength="6"
+                       TextChanged="firstName_TextChanged"/>
+
+                <Label Text="Last Name"
+                       Margin="0, 15, 0, 0"/>                
+                <Entry x:Name="lastname" 
+                       Margin="-80,25,0,0"
+                       HorizontalOptions="FillAndExpand"
+                       MaxLength="10"
+                       TextChanged="lastName_TextChanged"/>                
+            </StackLayout>
+            <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
+            <ScrollView>
+            <ListView x:Name="listview" RowHeight="350">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding FirstLastName, StringFormat='Contact: {0}'}"/>                                        
+                                <Label FontSize="12" Text="{Binding firstName, StringFormat='First Name: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding lastName, StringFormat='Last Name: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding email, StringFormat='Email: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding telephone, StringFormat='Telephone: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding mobile, StringFormat='Mobile: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding fax, StringFormat='Fax: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding skype, StringFormat='Skype: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding facebook, StringFormat='Facebook: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding xing, StringFormat='Xing: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding country, StringFormat='Country: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding region, StringFormat='Region: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding city, StringFormat='City: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding zip, StringFormat='Zip: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding street, StringFormat='Street: {0}'}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            </ScrollView>
+                        
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

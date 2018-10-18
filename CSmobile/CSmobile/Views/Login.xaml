@@ -3,11 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CSmobile.Models"
              x:Class="CSmobile.Login">
-    
-    <ContentPage.BindingContext>
-        <vm:LoginViewModel/>
-    </ContentPage.BindingContext>
-    
+           
     <ContentPage.Content>        
         <StackLayout Spacing="0" Padding="0">
             <Image Source="logo.png"

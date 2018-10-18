@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CSmobile.Views.Tickets">
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Orientation="Vertical">
+                <!--#region Create -->
+                <StackLayout IsVisible="False" x:Name="createLayout">
+                    <Button x:Name="Back" Text="Search Ticket" Clicked="Back_Clicked" 
+                        VerticalOptions="StartAndExpand"                         
+                        HeightRequest="40"/>
+
+                    <Label Text="Create Ticket"
+                           HorizontalOptions="CenterAndExpand"
+                           Margin="0, 5, 0, 0" 
+                           FontSize="22"/>
+
+                    <Label Text="Title"
+                           Margin="5, 0, 0, 0"/>
+                    <Entry x:Name="title" />
+
+                    <Label Text="Description"
+                           Margin="5, 0, 0, 0"/>
+                    <Entry x:Name="description" />
+
+                    <Label Text="Priority"
+                           Margin="5, 0, 0, 0"/>
+                    <Entry x:Name="priority" />
+                    <!--Make this a dropdown-->
+
+                    <Label Text="Resume"
+                           Margin="5, 0, 0, 0"/>
+                    <Entry x:Name="resume" />
+
+
+                </StackLayout>
+
+                <!--#region Picker -->
+                <!--<Picker x:Name="picker" Title="Add Fields" SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                    <Picker.Items>
+                        <x:String>Baboon</x:String>
+                        <x:String>Capuchin Monkey</x:String>
+                        <x:String>Blue Monkey</x:String>
+                        <x:String>Squirrel Monkey</x:String>
+                        <x:String>Golden Lion Tamarin</x:String>
+                        <x:String>Howler Monkey</x:String>
+                        <x:String>Japanese Macaque</x:String>
+                    </Picker.Items>
+                </Picker>-->
+                <!--#endregion-->
+
+                <Button IsVisible="False" x:Name="Create" Clicked="CreateTicket" 
+                        Text="Create"  VerticalOptions="StartAndExpand"                     
+                        Margin="0, 5, 0, 0"/>
+                <!--#endregion-->
+
+                <Button x:Name="CreateView" Text="New Ticket" Clicked="CreateView_Clicked" 
+                        VerticalOptions="StartAndExpand"                         
+                        HeightRequest="40"/>
+
+
+                <Label x:Name="lblticket" Text="Tickets"
+                Margin="0, 0, 0, 20" 
+                FontSize="22" 
+                HorizontalOptions="CenterAndExpand" />
+
+                <StackLayout x:Name="searchTickets" Orientation="Horizontal" >
+                    <Label Text="Title"
+                       Margin="5, 0, 0, 0"/>
+                    <Entry x:Name="titleSearch" 
+                       Margin="-40,15,0,0"
+                       HorizontalOptions="FillAndExpand"
+                       MaxLength="6"
+                       TextChanged="titleSearch_TextChanged"/>
+
+                    <Label Text="Description"
+                       Margin="0, 0, 0, 0"/>
+                    <Entry x:Name="descriptionSearch" 
+                       Margin="-80,15,0,0"
+                       HorizontalOptions="FillAndExpand"
+                       MaxLength="30"
+                       TextChanged="descriptionSearch_TextChanged"/>
+
+                </StackLayout>
+                <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
+                
+                <ListView x:Name="listview" RowHeight="360">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Fill" HorizontalOptions="Fill">
+                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Ticket: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding id, StringFormat='ID: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding assignedUserId, StringFormat='Assigned User: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding title, StringFormat='Title: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding description, StringFormat='Description: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding descriptionHtml, StringFormat='Html Description: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding priority, StringFormat='Priority: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding priorityName, StringFormat='Priority Name: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding status, StringFormat='Status: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding statusName, StringFormat='Status Name: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding ticketID, StringFormat='Ticket ID: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding resume, StringFormat='Resume: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding estimatedDate, StringFormat='Estimated Date: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding changedOn, StringFormat='Last Change: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding estimatedOn, StringFormat='Estimated On: {0}'}"/>
+                                </StackLayout>                                
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>                
+                
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
