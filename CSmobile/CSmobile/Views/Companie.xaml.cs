@@ -27,19 +27,22 @@ namespace CSmobile.Views
         {
             nameSearch.Text = e.NewTextValue;
             Name = nameSearch.Text;
-            if (Name.Length >= 3)
+            if (Name.Length >= 2)
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 await App.ApiServices.GetCompanies(companieName + nameSearch.Text);
                 list = App.ApiServices.Companies;
                 listview.ItemsSource = list;
                 listview.IsVisible = false;
                 listview.IsVisible = true;
+                listShowAll.IsVisible = false;
                 CountResults();
             }
             if(string.IsNullOrEmpty(Name))
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 Results.Text = "";
             }
         }
@@ -55,6 +58,27 @@ namespace CSmobile.Views
             {
                 Results.Text = "";
             }
+        }
+
+        private void listview_ItemTapped(object sender, ItemTappedEventArgs e) 
+        {
+            if (list.Count != 0)
+            {
+                var value = listview.SelectedItem;
+                Companies companie = (Companies)value;
+                list = new List<Companies>();
+                list.Add(companie);
+                listview.ItemsSource = null;
+                if (list.Count != 0)
+                {
+                    listShowAll.ItemsSource = list;
+                    listShowAll.IsVisible = false;
+                    listShowAll.IsVisible = true;
+                    listview.IsVisible = false;
+                    Results.Text = "";
+                }
+            }
+
         }
 
     }

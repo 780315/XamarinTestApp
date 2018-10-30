@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CSmobile.Views.Tasks">
+    <ContentPage.Content>
+
+        <ScrollView>
+            <StackLayout>
+                <StackLayout IsVisible="True" x:Name="createLayout">
+                   
+                    <Label Text="Create Task"
+                           HorizontalOptions="CenterAndExpand"
+                           Margin="0, 5, 0, 0" 
+                           FontSize="22"/>
+
+                    <Label Text="Title"
+                           Margin="5, 0, 0, 0"/>
+                    <Entry x:Name="title" />
+
+                    <Label Text="Description"
+                           Margin="5, 0, 0, 0"/>
+                    <Entry x:Name="description" />
+
+                    <Label Text="Deadline"
+                           Margin="5,0,0,0"/>
+                    <DatePicker
+                        x:Name="datePicker"
+                        Format="dd/MM/yyyy"/>
+
+                </StackLayout>
+
+                <Button IsVisible="True" x:Name="Create" Clicked="CreateTask" 
+                        Text="Create"  VerticalOptions="StartAndExpand"                     
+                        Margin="0, 5, 0, 0"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

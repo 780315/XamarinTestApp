@@ -30,26 +30,31 @@ namespace CSmobile.Views
             if (firstname.Text.Length >= 3 && string.IsNullOrEmpty(LName))
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 await App.ApiServices.GetContacts(FirstName + firstname.Text);
                 list = App.ApiServices.Contacts;
                 listview.ItemsSource = list;
                 listview.IsVisible = false;
                 listview.IsVisible = true;
+                listShowAll.IsVisible = false;
                 CountResults();
             }
-            if (firstname.Text.Length >= 3 && !string.IsNullOrEmpty(LName) && LName.Length >= 3)
+            if (firstname.Text.Length >= 0 && !string.IsNullOrEmpty(LName) && LName.Length >= 3)
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 await App.ApiServices.GetContacts(FirstName + firstname.Text + "&LastName=" + LName);
                 list = App.ApiServices.Contacts;
                 listview.ItemsSource = list;
                 listview.IsVisible = false;
                 listview.IsVisible = true;
+                listShowAll.IsVisible = false;
                 CountResults();
             }
             if (string.IsNullOrEmpty(firstname.Text) && string.IsNullOrEmpty(LName))
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 Results.Text = "";
             }
         }
@@ -61,25 +66,30 @@ namespace CSmobile.Views
             if (lastname.Text.Length >= 3 && string.IsNullOrEmpty(FName))
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 await App.ApiServices.GetContacts(LastName + lastname.Text);
                 list = App.ApiServices.Contacts;
                 listview.ItemsSource = list;
                 listview.IsVisible = false;
                 listview.IsVisible = true;
+                listShowAll.IsVisible = false;
                 CountResults();
             }           
-            if (!string.IsNullOrEmpty(FName) && FName.Length >= 3 && lastname.Text.Length >= 3)
+            if (!string.IsNullOrEmpty(FName) && FName.Length >= 3 && lastname.Text.Length >= 0)
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 await App.ApiServices.GetContacts(FirstName + FName + "&LastName=" + lastname.Text);
                 list = App.ApiServices.Contacts;
                 listview.ItemsSource = list;
                 listview.IsVisible = false;
                 listview.IsVisible = true;
+                listShowAll.IsVisible = false;
                 CountResults();
             }
             if (string.IsNullOrEmpty(lastname.Text) && string.IsNullOrEmpty(FName))
             {
+                listShowAll.ItemsSource = null;
                 listview.ItemsSource = null;
                 Results.Text = "";
             }
@@ -96,6 +106,27 @@ namespace CSmobile.Views
             {
                 Results.Text = "";
             }
+        }
+
+        private void listview_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (list.Count != 0)
+            {
+                var value = listview.SelectedItem;
+                Models.Contacts contact = (Models.Contacts)value;
+                list = new List<Models.Contacts>();
+                list.Add(contact);
+                listview.ItemsSource = null;
+                if (list.Count != 0)
+                {
+                    listShowAll.ItemsSource = list;
+                    listShowAll.IsVisible = false;
+                    listShowAll.IsVisible = true;
+                    listview.IsVisible = false;
+                    Results.Text = "";
+                }
+            }
+
         }
     }
 }

@@ -5,8 +5,8 @@
 
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Orientation="Vertical">
-                <!--#region Create -->
+            <StackLayout>
+                <!--#region Create -->            
                 <StackLayout IsVisible="False" x:Name="createLayout">
                     <Button x:Name="Back" Text="Search Ticket" Clicked="Back_Clicked" 
                         VerticalOptions="StartAndExpand"                         
@@ -24,20 +24,14 @@
                     <Label Text="Description"
                            Margin="5, 0, 0, 0"/>
                     <Entry x:Name="description" />
-
-                    <Label Text="Priority"
-                           Margin="5, 0, 0, 0"/>
-                    <Entry x:Name="priority" />
-                    <!--Make this a dropdown-->
-
-                    <Label Text="Resume"
+                    
+                    <Label Text="Document"
                            Margin="5, 0, 0, 0"/>
                     <Entry x:Name="resume" />
 
-
                 </StackLayout>
-
-                <!--#region Picker -->
+            
+            <!--#region Picker -->
                 <!--<Picker x:Name="picker" Title="Add Fields" SelectedIndexChanged="OnPickerSelectedIndexChanged">
                     <Picker.Items>
                         <x:String>Baboon</x:String>
@@ -49,7 +43,7 @@
                         <x:String>Japanese Macaque</x:String>
                     </Picker.Items>
                 </Picker>-->
-                <!--#endregion-->
+            <!--#endregion-->
 
                 <Button IsVisible="False" x:Name="Create" Clicked="CreateTicket" 
                         Text="Create"  VerticalOptions="StartAndExpand"                     
@@ -85,8 +79,35 @@
 
                 </StackLayout>
                 <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
-                
-                <ListView x:Name="listview" RowHeight="360">
+                <!--<ScrollView>-->
+                    <ListView x:Name="listview" RowHeight="140" ItemTapped="listview_ItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Fill" HorizontalOptions="Fill">
+                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Ticket: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding id, StringFormat='ID: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding assignedUserId, StringFormat='Assigned User: {0}'}"/>-->
+                                    <Label FontSize="12" Text="{Binding title, StringFormat='Title: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding description, StringFormat='Description: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding descriptionHtml, StringFormat='Html Description: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding priority, StringFormat='Priority: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding priorityName, StringFormat='Priority Name: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding status, StringFormat='Status: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding statusName, StringFormat='Status Name: {0}'}"/>-->
+                                    <Label FontSize="12" Text="{Binding ticketID, StringFormat='Ticket ID: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding resume, StringFormat='Resume: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding estimatedDate, StringFormat='Estimated Date: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding changedOn, StringFormat='Last Change: {0}'}"/>-->
+                                    <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding estimatedOn, StringFormat='Estimated On: {0}'}"/>-->
+                                </StackLayout>                                
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <ListView x:Name="listShowAll" RowHeight="360" IsVisible="False" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -107,12 +128,12 @@
                                     <Label FontSize="12" Text="{Binding changedOn, StringFormat='Last Change: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding estimatedOn, StringFormat='Estimated On: {0}'}"/>
-                                </StackLayout>                                
+                                </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>                
-                
+                </ListView>
+                <!--</ScrollView>-->
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

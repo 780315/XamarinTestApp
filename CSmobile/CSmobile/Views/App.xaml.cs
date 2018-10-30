@@ -1,6 +1,8 @@
 ﻿using CSmobile.Service;
 using CSmobile.Views;
 using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Timers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,17 +13,18 @@ namespace CSmobile
     public partial class App : Application
     {
         static ApiServices apiServices;
+        
         public App() 
         {
-            InitializeComponent();
-            MainPage = new Login();             
-            //MainPage = new Tickets();
+            InitializeComponent();                         
+            //MainPage = new Login();            
             //SetTimer();
         }
 
         protected override void OnStart()
         {
             // Handle when your app starts
+            Logged();            
         }
 
         protected override void OnSleep()
@@ -59,6 +62,23 @@ namespace CSmobile
         {
             Login login = new Login();
             Application.Current.MainPage = login;
+        }
+
+        private static void Logged()
+        {           
+            if (Application.Current.Properties.ContainsKey("token"))
+            {
+                App.ApiServices.tokenSave = Application.Current.Properties["token"] as string;                
+                App.ApiServices.loginSkip = true;
+                MainPage main = new MainPage();
+                Application.Current.MainPage = main;
+            }
+            else
+            {
+                App.ApiServices.loginSkip = false;
+                Login login = new Login();
+                Application.Current.MainPage = login;
+            }            
         }
 
     }

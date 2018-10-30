@@ -27,24 +27,23 @@
                        <!--TextChanged=""-->
             </StackLayout>
             <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
-
-            <ScrollView>
-                <ListView x:Name="listview" RowHeight="470">
+            
+                <ListView x:Name="listview" RowHeight="140" ItemTapped="listview_ItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Vertical" HorizontalOptions="Fill" VerticalOptions="Fill">
                                     <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding name, StringFormat='Companie: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding id, StringFormat='Id: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding id, StringFormat='Id: {0}'}"/>-->
                                     <Label FontSize="12" Text="{Binding code, StringFormat='Code: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding name, StringFormat='Name: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding addition, StringFormat='Addition: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding taxNumber, StringFormat='Tax Number: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding taxRate, StringFormat='Tax Rate: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding addition, StringFormat='Addition: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding taxNumber, StringFormat='Tax Number: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding taxRate, StringFormat='Tax Rate: {0}'}"/>-->
                                     <Label FontSize="12" Text="{Binding telephone, StringFormat='Telephone: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding fax, StringFormat='Fax: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding fax, StringFormat='Fax: {0}'}"/>-->
                                     <Label FontSize="12" Text="{Binding website, StringFormat='Website: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding createdBy, StringFormat='Created By: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding createdBy, StringFormat='Created By: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding changedBy, StringFormat='Changed By: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding changedOn, StringFormat='Changed On: {0}'}"/>
@@ -54,14 +53,46 @@
                                     <Label FontSize="12" Text="{Binding inactive, StringFormat='Inactive: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding iban, StringFormat='Iban: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding bic, StringFormat='Bic: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding address, StringFormat='Address: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding address, StringFormat='Address: {0}'}"/>-->
                                     <!--<Label FontSize="12" Text="{Binding customerSupplierRelation, StringFormat='Street: {0}'}"/>-->
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </ScrollView>
+
+            <ListView x:Name="listShowAll" RowHeight="470" IsVisible="False">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding name, StringFormat='Companie: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding id, StringFormat='Id: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding code, StringFormat='Code: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding name, StringFormat='Name: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding addition, StringFormat='Addition: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding taxNumber, StringFormat='Tax Number: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding taxRate, StringFormat='Tax Rate: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding telephone, StringFormat='Telephone: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding fax, StringFormat='Fax: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding website, StringFormat='Website: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding createdBy, StringFormat='Created By: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding changedBy, StringFormat='Changed By: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding changedOn, StringFormat='Changed On: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding version, StringFormat='Version: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding addressId, StringFormat='Address Id: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding email, StringFormat='Email: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding inactive, StringFormat='Inactive: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding iban, StringFormat='Iban: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding bic, StringFormat='Bic: {0}'}"/>
+                                <Label FontSize="12" Text="{Binding address, StringFormat='Address: {0}'}"/>
+                                <!--<Label FontSize="12" Text="{Binding customerSupplierRelation, StringFormat='Street: {0}'}"/>-->
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
         </StackLayout>
     </ContentPage.Content>

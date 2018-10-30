@@ -37,7 +37,7 @@ namespace CSmobile
             User user = new User(username.Text, password.Text);
             if (user.CheckInformation())
             {                
-                await App.ApiServices.LoginAsync(user);
+                await App.ApiServices.LoginAsync(user);                
                 if (App.ApiServices.loginStatus == true)
                 {
                     await DisplayAlert("Login", "Login Successfull", "Ok");

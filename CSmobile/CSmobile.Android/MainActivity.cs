@@ -25,7 +25,13 @@ namespace CSmobile.Droid
         //private SurfaceView surfaceView;
         //private ISurfaceHolder surfaceHolder;
         //private MediaPlayer mediaPlayer;
-        //private const string VIDEO_PATH = "https://www.cs.team/wp-content/themes/csg-theme/assets/video/04.cs.team_BFX01.mp4"; //local path not working, with url link scale needs to be fixed.
+        //private const string VIDEO_PATH = "https://www.cs.team/wp-content/themes/csg-theme/assets/video/04.cs.team_BFX01.mp4"; //local path not working, with url link the scale needs to be fixed.
+
+        public override void OnBackPressed()
+        {
+            MainPage main = new MainPage();
+            Xamarin.Forms.Application.Current.MainPage = main;
+        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CSmobile.Models;
+using Newtonsoft.Json;
 
 namespace CSmobile.Views
 {
@@ -27,7 +28,7 @@ namespace CSmobile.Views
 
         async void CreateTicket(object sender, EventArgs e)
         {
-            Ticket ticket = new Ticket(0, 0, title.Text, description.Text, "", Convert.ToInt32(priority.Text), "", 0, "", "", resume.Text, "", "", "", "");
+            Ticket ticket = new Ticket(0, 0, title.Text, description.Text, "", 0, "", 0, "", "", "", "", "", "", "");
             await App.ApiServices.PostTickets(ticket);
             if (App.ApiServices.ticketPost == true)
             {
@@ -42,8 +43,7 @@ namespace CSmobile.Views
         private void ClearFields()
         {
             title.Text = string.Empty;
-            description.Text = string.Empty;
-            priority.Text = string.Empty;
+            description.Text = string.Empty;            
             resume.Text = string.Empty;
         }
 
@@ -64,28 +64,37 @@ namespace CSmobile.Views
             if (Ttitle.Length >= 3 && string.IsNullOrEmpty(Tdescription))
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 await App.ApiServices.GetTickets(ticketTitle + titleSearch.Text);
                 list = App.ApiServices.Tickets;
-                listview.ItemsSource = list;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
+                if (list.Count != 0)
+                {
+                    listview.ItemsSource = list;
+                    listview.IsVisible = false;
+                    listview.IsVisible = true;
+                    listShowAll.IsVisible = false;
+                }
                 CountResults();
             }
-            if (titleSearch.Text.Length >= 3 && !string.IsNullOrEmpty(Tdescription) && Tdescription.Length >= 3)
+            if (titleSearch.Text.Length >= 0 && !string.IsNullOrEmpty(Tdescription) && Tdescription.Length >= 3)
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 await App.ApiServices.GetTickets(ticketTitle + titleSearch.Text + "&Description=" + Tdescription);
                 list = App.ApiServices.Tickets;
-                listview.ItemsSource = list;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
+                if (list.Count != 0)
+                {
+                    listview.ItemsSource = list;
+                    listview.IsVisible = false;
+                    listview.IsVisible = true;
+                    listShowAll.IsVisible = false;
+                }
                 CountResults();
             }
             if (string.IsNullOrEmpty(titleSearch.Text) && string.IsNullOrEmpty(Tdescription))
             {
                 listview.ItemsSource = null;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
+                listShowAll.ItemsSource = null;
                 Results.Text = "";
             }
         }
@@ -97,34 +106,46 @@ namespace CSmobile.Views
             if (descriptionSearch.Text.Length >= 3 && string.IsNullOrEmpty(Ttitle))
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 await App.ApiServices.GetTickets(ticketDescription + descriptionSearch.Text);
                 list = App.ApiServices.Tickets;
-                listview.ItemsSource = list;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
+                if (list.Count != 0)
+                {
+                    listview.ItemsSource = list;
+                    listview.IsVisible = false;
+                    listview.IsVisible = true;
+                    listShowAll.IsVisible = false;
+                }
                 CountResults();
             }
-            if (!string.IsNullOrEmpty(Ttitle) && Ttitle.Length >= 3 && descriptionSearch.Text.Length >= 3)
+            if (!string.IsNullOrEmpty(Ttitle) && Ttitle.Length >= 3 && descriptionSearch.Text.Length >= 0)
             {
                 listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
                 await App.ApiServices.GetTickets(ticketTitle + Ttitle + "&Description=" + descriptionSearch.Text);
                 list = App.ApiServices.Tickets;
-                listview.ItemsSource = list;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
+                if (list.Count != 0)
+                {
+                    listview.ItemsSource = list;
+                    listview.IsVisible = false;
+                    listview.IsVisible = true;
+                    listShowAll.IsVisible = false;
+                }
                 CountResults();
             }
             if (string.IsNullOrEmpty(descriptionSearch.Text) && string.IsNullOrEmpty(Ttitle))
             {
+                listShowAll.ItemsSource = null;
                 listview.ItemsSource = null;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
                 Results.Text = "";
             }
         }
 
         private void CreateView_Clicked(object sender, EventArgs e)
         {
+            Results.Text = "";
+            titleSearch.Text = "";
+            descriptionSearch.Text = "";
             lblticket.IsVisible = false;
             searchTickets.IsVisible = false;
             listview.IsVisible = false;
@@ -133,6 +154,7 @@ namespace CSmobile.Views
             createLayout.IsVisible = true;
             Create.IsVisible = true;
         }
+
         private void CountResults()
         {
             results = list.Count();
@@ -144,6 +166,27 @@ namespace CSmobile.Views
             {
                 Results.Text = "";
             }
+        }
+
+        private void listview_ItemTapped(object sender, ItemTappedEventArgs e) 
+        {
+            if (list.Count != 0)
+            {
+                var value = listview.SelectedItem;
+                Ticket ticket = (Ticket)value;
+                list = new List<Ticket>();
+                list.Add(ticket);
+                listview.ItemsSource = null;
+                if (list.Count != 0)
+                {
+                    listShowAll.ItemsSource = list;
+                    listShowAll.IsVisible = false;
+                    listShowAll.IsVisible = true;
+                    listview.IsVisible = false;
+                    Results.Text = "";
+                }
+            }
+
         }
 
 

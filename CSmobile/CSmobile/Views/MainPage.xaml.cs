@@ -34,5 +34,11 @@ namespace CSmobile
             Companie companiePage = new Companie();
             Application.Current.MainPage = companiePage;
         }
+
+        private void Tasks(object sender, EventArgs e)
+        {
+            Tasks tasks = new Tasks();
+            Application.Current.MainPage = tasks;
+        }
     }
 }

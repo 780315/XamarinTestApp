@@ -19,6 +19,9 @@
         
         <Button Text="Companies"                
                 Clicked="Companies"/>
+        
+        <Button Text="Tasks"                
+                Clicked="Tasks"/>
     </StackLayout>
     
 </ContentPage>
