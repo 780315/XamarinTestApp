@@ -1,4 +1,5 @@
-﻿using CSmobile.Service;
+﻿using CSmobile.Models;
+using CSmobile.Service;
 using CSmobile.Views;
 using System;
 using System.Net.Http;
@@ -13,18 +14,18 @@ namespace CSmobile
     public partial class App : Application
     {
         static ApiServices apiServices;
-        
-        public App() 
+
+        public App()
         {
-            InitializeComponent();                         
-            //MainPage = new Login();            
-            //SetTimer();
+            InitializeComponent();
+            MainPage = new FirstPage();
         }
 
         protected override void OnStart()
         {
-            // Handle when your app starts
-            Logged();            
+            // Handle when your app starts   
+            //SetTimer();
+            Logged();
         }
 
         protected override void OnSleep()
@@ -51,10 +52,9 @@ namespace CSmobile
 
         private static void SetTimer()
         {
-
-            var aTimer = new System.Timers.Timer(2000);
+            var aTimer = new System.Timers.Timer(10);
             // Hook up the Elapsed event for the timer. 
-            aTimer.Elapsed += ChangePage;
+            //aTimer.Elapsed += Logged;
             aTimer.AutoReset = false;
             aTimer.Enabled = true;
         }
@@ -65,20 +65,28 @@ namespace CSmobile
         }
 
         private static void Logged()
-        {           
+        {
             if (Application.Current.Properties.ContainsKey("token"))
             {
-                App.ApiServices.tokenSave = Application.Current.Properties["token"] as string;                
+                App.ApiServices.tokenSave = Application.Current.Properties["token"] as string;
                 App.ApiServices.loginSkip = true;
-                MainPage main = new MainPage();
-                Application.Current.MainPage = main;
+                if (App.ApiServices.tokenSave != string.Empty)
+                {
+                    MainPage main = new MainPage();
+                    Application.Current.MainPage = main;
+                }
+                else
+                {
+                    Login login = new Login();
+                    Application.Current.MainPage = login;
+                }
             }
             else
             {
                 App.ApiServices.loginSkip = false;
                 Login login = new Login();
                 Application.Current.MainPage = login;
-            }            
+            }
         }
 
     }

@@ -14,6 +14,9 @@ namespace CSmobile.Models
         public static string CompaniesUrl = "http://contentsharewebapi.soltystudio.com/api/v1/Companies";
         public static string TicketsIdUrl = "http://contentsharewebapi.soltystudio.com/api/v1/Tickets?Title=";
         public static string TasksUrl = "http://contentsharewebapi.soltystudio.com/api/v1/Tasks";
+        public static string DocumentSearch = "http://contentsharewebapi.soltystudio.com/api/v1/Documents?EntityId=";
+        public static string DocumentInit = "http://contentsharewebapi.soltystudio.com/api/v1/Documents/.init";
+        public static string DocumentCommit = "http://contentsharewebapi.soltystudio.com/api/v1/Documents/.commit";
 
         public static string Username;
         public static string Password;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,8 +7,9 @@ namespace CSmobile.Models
 {
     public class User
     {
-       
+        [JsonProperty]
         public string username { get; set; }
+        [JsonProperty]
         public string password { get; set; }
 
         public User() { }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-
+using static CSmobile.Service.ApiServices;
 
 namespace CSmobile
 {
@@ -13,14 +13,14 @@ namespace CSmobile
     {
         public MainPage()
         {
-            InitializeComponent();            
-        }
-       
+            InitializeComponent();
+            DependencyService.Get<CSmobile.Models.IForceKeyboardDismissalService>().DismissKeyboard();            
+        }       
                
         private void Tickets(object sender, EventArgs e)
         {
-            Tickets ticketPage = new Tickets(); 
-            Application.Current.MainPage = ticketPage;
+            Tickets tickets = new Tickets();
+            Application.Current.MainPage = tickets;
         }
 
         private void Contacts(object sender, EventArgs e)
@@ -39,6 +39,17 @@ namespace CSmobile
         {
             Tasks tasks = new Tasks();
             Application.Current.MainPage = tasks;
+        }
+
+        private void Logout(object sender, EventArgs e)
+        {
+            App.ApiServices.Logout();
+        }
+
+        private void DocumentSearch(object sender, EventArgs e)
+        {
+            Documents documents = new Documents();
+            Application.Current.MainPage = documents;
         }
     }
 }

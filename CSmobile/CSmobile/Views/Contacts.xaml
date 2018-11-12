@@ -5,6 +5,8 @@
     
     <ContentPage.Content>
         <StackLayout>
+            <Button HeightRequest="30" HorizontalOptions="Start" Image="left_arrow.png"
+                        Clicked="GoToMenu"/>
             <Label Text="Contacts"
                 Margin="0, 5, 0, 0" 
                 FontSize="22" 

@@ -2,17 +2,28 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CSmobile.Views.Tasks">
+
     <ContentPage.Content>
 
-        <ScrollView>
+        <ScrollView x:Name="scrollView">
             <StackLayout>
-                <StackLayout IsVisible="True" x:Name="createLayout">
+                <Button HeightRequest="30" HorizontalOptions="Start" Image="left_arrow.png"
+                        Clicked="GoToMenu"/>
+                <StackLayout IsVisible="False" x:Name="createLayout">
                    
                     <Label Text="Create Task"
+                           x:Name="Label1"
                            HorizontalOptions="CenterAndExpand"
                            Margin="0, 5, 0, 0" 
                            FontSize="22"/>
 
+                    <Label Text="Edit Task"
+                           x:Name="editLbl"
+                           HorizontalOptions="CenterAndExpand"
+                           Margin="0, 5, 0, 0" 
+                           FontSize="22"
+                           IsVisible="False"/>
+                    
                     <Label Text="Title"
                            Margin="5, 0, 0, 0"/>
                     <Entry x:Name="title" />
@@ -29,9 +40,71 @@
 
                 </StackLayout>
 
-                <Button IsVisible="True" x:Name="Create" Clicked="CreateTask" 
+                <Button IsVisible="False" x:Name="Create" Clicked="CreateTask" 
                         Text="Create"  VerticalOptions="StartAndExpand"                     
                         Margin="0, 5, 0, 0"/>
+                <Button IsVisible="False" x:Name="Edit" Clicked="EditTaskSave" 
+                        Text="Edit"  VerticalOptions="StartAndExpand"                     
+                        Margin="0, 5, 0, 0"/>
+
+                <Button x:Name="CreateView" Text="New Task" Clicked="CreateView_Clicked" 
+                        VerticalOptions="StartAndExpand"                         
+                        HeightRequest="40"/>
+                
+                <Label x:Name="lbltask" Text="Tasks"
+                Margin="0, 0, 0, 20" 
+                FontSize="22" 
+                HorizontalOptions="CenterAndExpand" />
+
+                <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
+                <!--<ScrollView>-->
+                <ListView x:Name="listview" RowHeight="170" ItemTapped="listview_ItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Fill" HorizontalOptions="Fill">
+                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Task: {0}'}"/>                                    
+                                    <Label FontSize="12" Text="{Binding title, StringFormat='Title: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding description, StringFormat='Description: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding deadline, StringFormat='Deadline: {0}'}"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <ListView x:Name="listShowAll" RowHeight="460" IsVisible="False" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Fill" HorizontalOptions="Fill">
+                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Ticket: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding id, StringFormat='Task Id: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding title, StringFormat='Title: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding description, StringFormat='Description: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding deadline, StringFormat='Deadline: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding assignedUserId, StringFormat='Assigned User: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding deadlineType, StringFormat='Deadline type: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding clientId, StringFormat='Client Id: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding contactPersonId, StringFormat='Contact Id: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding status, StringFormat='Status: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding reminderInterval, StringFormat='Reminder Interval: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding inCalendar, StringFormat='In Calendar: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding parentTask, StringFormat='Parent Task: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding fromDate, StringFormat='From date: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding createdBy, StringFormat='Created by: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding changedBy, StringFormat='Changed by: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding changedOn, StringFormat='Changed On: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding version, StringFormat='Version: {0}'}"/>
+                                    <Button Text="Edit Task" Clicked="EditTask" VerticalOptions="StartAndExpand" HeightRequest="40"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

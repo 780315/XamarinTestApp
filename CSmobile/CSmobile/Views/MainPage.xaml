@@ -4,26 +4,41 @@
              xmlns:local="clr-namespace:CSmobile"
              x:Class="CSmobile.MainPage">
 
-    <StackLayout>
-        
-        <Label Text="Menu" FontSize="16"
-           Margin="0, 30, 0, 0"
-           HorizontalOptions="Center" />        
-        
-        <Button Text="Tickets"
-                Margin="0,40,0,0"
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout x:Name="mainmenu">
+                
+                <Label Text="Menu" FontSize="16"
+                Margin="0, 30, 0, 0"
+                HorizontalOptions="Center" />
+
+                <Button Text="Tickets"
+                Margin="0,30,0,0"
                 Clicked="Tickets"/>
 
-        <Button Text="Contacts"                
+                <Button Text="Contacts" 
+                Margin="0,-10,0,0"
                 Clicked="Contacts"/>
-        
-        <Button Text="Companies"                
+
+                <Button Text="Companies"  
+                Margin="0,-10,0,0"
                 Clicked="Companies"/>
-        
-        <Button Text="Tasks"                
+
+                <Button Text="Tasks" 
+                Margin="0,-10,0,0"
                 Clicked="Tasks"/>
-    </StackLayout>
-    
+
+                <Button Text="Document Search"
+                 Margin="0,-10,0,0"
+                 Clicked="DocumentSearch"/>
+
+                <Button Text="Logout" 
+                Margin="0,-10,0,0"
+                Clicked="Logout"/>
+                
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+
 </ContentPage>
-    
-   
+

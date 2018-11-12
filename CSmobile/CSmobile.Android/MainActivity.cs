@@ -15,11 +15,16 @@ using Android.Graphics;
 using Android.Util;
 using System.Timers;
 using Xamarin.Forms;
+using Android.Content;
+using Android.Views.InputMethods;
+using Xamarin.Forms.Platform.Android;
+using Plugin.CurrentActivity;
+using static CSmobile.Service.ApiServices;
 
 namespace CSmobile.Droid
 {
     [Activity(Label = "CSmobile", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity //, ISurfaceHolderCallback, MediaPlayer.IOnPreparedListener
+    public class MainActivity : FormsAppCompatActivity //, ISurfaceHolderCallback, MediaPlayer.IOnPreparedListener
     {
         //Change theme to FullscreenTheme for splash screen
         //private SurfaceView surfaceView;
@@ -29,15 +34,15 @@ namespace CSmobile.Droid
 
         public override void OnBackPressed()
         {
-            MainPage main = new MainPage();
-            Xamarin.Forms.Application.Current.MainPage = main;
+            //MainPage main = new MainPage();
+            //Xamarin.Forms.Application.Current.MainPage = main;
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-           
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
             base.OnCreate(savedInstanceState);
             //SetContentView(Resource.Layout.Main);
             //surfaceView = FindViewById<SurfaceView>(Resource.Id.surfaceView);
@@ -45,8 +50,13 @@ namespace CSmobile.Droid
             //surfaceHolder.AddCallback(this);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
-
         }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        {
+            Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        
 
         //public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Format format, int width, int height)
         //{
@@ -99,6 +109,9 @@ namespace CSmobile.Droid
         //        mediaPlayer = null;
         //    }
         //}
+
+
+
 
     }
 }

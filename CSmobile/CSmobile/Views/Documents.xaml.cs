@@ -11,35 +11,34 @@ using Xamarin.Forms.Xaml;
 namespace CSmobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Companie : ContentPage
+	public partial class Documents : ContentPage
 	{
         public string Name { get; set; }
-        public IList<Companies> list { get; set; }
-        public string companieName = "?Name=";
+        public IList<Document> list { get; set; }        
         public int results { get; set; }
 
-        public Companie ()
+        public Documents ()
 		{
 			InitializeComponent ();
 		}
 
-        async void nameSearch_TextChanged(object sender, TextChangedEventArgs e)
+        private async void nameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             nameSearch.Text = e.NewTextValue;
             Name = nameSearch.Text;
-            if (Name.Length >= 2)
+            if (Name.Length > 0)
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
-                await App.ApiServices.GetCompanies(companieName + nameSearch.Text);
-                list = App.ApiServices.Companies;
+                await App.ApiServices.GetDocuments(nameSearch.Text);
+                list = App.ApiServices.Documents;
                 listview.ItemsSource = list;
                 listview.IsVisible = false;
                 listview.IsVisible = true;
                 listShowAll.IsVisible = false;
                 CountResults();
             }
-            if(string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(Name))
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
@@ -60,14 +59,14 @@ namespace CSmobile.Views
             }
         }
 
-        private void listview_ItemTapped(object sender, ItemTappedEventArgs e) 
+        private void listview_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (list.Count != 0)
             {
                 var value = listview.SelectedItem;
-                Companies companie = (Companies)value;
-                list = new List<Companies>();
-                list.Add(companie);
+                Document document = (Document)value;
+                list = new List<Document>();
+                list.Add(document);
                 listview.ItemsSource = null;
                 if (list.Count != 0)
                 {

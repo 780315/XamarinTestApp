@@ -2,19 +2,32 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CSmobile.Views.Tickets">
-
+    
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="BackButton" Icon="left_arrow.png" Order="Primary" Clicked="backEvent"/>
+    </ContentPage.ToolbarItems>-->
+    
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView x:Name="scrollView">
             <StackLayout>
-                <!--#region Create -->            
+                <!--#region Create -->
+                <Button HeightRequest="30" HorizontalOptions="Start" Image="left_arrow.png"
+                        Clicked="GoToMenu"/>
                 <StackLayout IsVisible="False" x:Name="createLayout">
                     <Button x:Name="Back" Text="Search Ticket" Clicked="Back_Clicked" 
                         VerticalOptions="StartAndExpand"                         
-                        HeightRequest="40"/>
+                        HeightRequest="40"/>                    
 
                     <Label Text="Create Ticket"
                            HorizontalOptions="CenterAndExpand"
                            Margin="0, 5, 0, 0" 
+                           x:Name="Label1"
+                           FontSize="22"/>
+
+                    <Label Text="Edit Ticket"
+                           HorizontalOptions="CenterAndExpand"
+                           Margin="0, 5, 0, 0" 
+                           x:Name="editLbl"
                            FontSize="22"/>
 
                     <Label Text="Title"
@@ -26,8 +39,14 @@
                     <Entry x:Name="description" />
                     
                     <Label Text="Document"
+                           x:Name="docLbl"
                            Margin="5, 0, 0, 0"/>
-                    <Entry x:Name="resume" />
+                    <Button x:Name="document"
+                           Clicked="DocumentUpload"/>
+
+                    <Image x:Name="FileImage"
+                           WidthRequest="100"
+                           HeightRequest="100"/>
 
                 </StackLayout>
             
@@ -49,6 +68,9 @@
                         Text="Create"  VerticalOptions="StartAndExpand"                     
                         Margin="0, 5, 0, 0"/>
                 <!--#endregion-->
+                <Button IsVisible="False" x:Name="Edit" Clicked="EditTicketSave" 
+                        Text="Edit"  VerticalOptions="StartAndExpand"                     
+                        Margin="0, 5, 0, 0"/>
 
                 <Button x:Name="CreateView" Text="New Ticket" Clicked="CreateView_Clicked" 
                         VerticalOptions="StartAndExpand"                         
@@ -80,7 +102,7 @@
                 </StackLayout>
                 <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
                 <!--<ScrollView>-->
-                    <ListView x:Name="listview" RowHeight="140" ItemTapped="listview_ItemTapped">
+                    <ListView x:Name="listview" RowHeight="170" ItemTapped="listview_ItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -107,7 +129,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <ListView x:Name="listShowAll" RowHeight="360" IsVisible="False" >
+                <ListView x:Name="listShowAll" RowHeight="400" IsVisible="False" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -117,7 +139,7 @@
                                     <Label FontSize="12" Text="{Binding assignedUserId, StringFormat='Assigned User: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding title, StringFormat='Title: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding description, StringFormat='Description: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding descriptionHtml, StringFormat='Html Description: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding descriptionHtml, StringFormat='Html Description: {0}'}"/>-->
                                     <Label FontSize="12" Text="{Binding priority, StringFormat='Priority: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding priorityName, StringFormat='Priority Name: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding status, StringFormat='Status: {0}'}"/>
@@ -128,6 +150,8 @@
                                     <Label FontSize="12" Text="{Binding changedOn, StringFormat='Last Change: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding estimatedOn, StringFormat='Estimated On: {0}'}"/>
+                                    <Button Text="Edit Ticket" Clicked="EditTicket" VerticalOptions="StartAndExpand" HeightRequest="40"/>
+
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

@@ -1,4 +1,6 @@
-﻿using CSmobile.Models;
+﻿using Android.Content;
+using Android.Views.InputMethods;
+using CSmobile.Models;
 using CSmobile.Service;
 using System;
 using System.Collections.Generic;
@@ -18,8 +20,8 @@ namespace CSmobile
 		public Login ()
 		{
             InitializeComponent();
-            LblClick();
-		}
+            LblClick();            
+        }
         
         void LblClick()
         {
@@ -39,7 +41,7 @@ namespace CSmobile
             {                
                 await App.ApiServices.LoginAsync(user);                
                 if (App.ApiServices.loginStatus == true)
-                {
+                {                    
                     await DisplayAlert("Login", "Login Successfull", "Ok");
                     Application.Current.MainPage = main;
                 }
@@ -52,12 +54,7 @@ namespace CSmobile
             {
                 await DisplayAlert("Login", "Login Failed, fill the username and password fields!", "Ok");
             }
-        }
-
-        
-        /*private void OnLoginButtonClicked(object sender, EventArgs e)
-{
-
-} */
+        }        
+       
     }
 }

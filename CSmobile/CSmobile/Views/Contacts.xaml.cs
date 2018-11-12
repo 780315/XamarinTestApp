@@ -128,5 +128,11 @@ namespace CSmobile.Views
             }
 
         }
+
+        private void GoToMenu(object sender, EventArgs e)
+        {
+            MainPage main = new MainPage();
+            Application.Current.MainPage = main;
+        }
     }
 }
