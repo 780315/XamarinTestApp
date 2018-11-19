@@ -12,13 +12,12 @@
                 FontSize="22" 
                 HorizontalOptions="CenterAndExpand" />
                 
-                <StackLayout x:Name="searchTickets" Orientation="Horizontal" >
-                    <Label Text="Entity Id"
-                       Margin="5, 15, 0, 0"/>
+                <StackLayout x:Name="searchTickets" Orientation="Horizontal" >                    
                     <Entry x:Name="nameSearch" 
-                       Margin="-60,25,0,0"
+                       Margin="0,25,0,0"
                        HorizontalOptions="FillAndExpand"
-                       MaxLength="6"
+                       MaxLength="15"
+                       Placeholder="Search"
                        TextChanged="nameSearch_TextChanged"/>
 
                 </StackLayout>
@@ -41,19 +40,19 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <ListView x:Name="listShowAll" RowHeight="360" IsVisible="False" >
+                <ListView x:Name="listShowAll" RowHeight="200" IsVisible="False" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Vertical" VerticalOptions="Fill" HorizontalOptions="Fill">
-                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding documentName, StringFormat='Name: {0}'}"/>                                    
+                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding id, StringFormat='Document ID: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding entityID, StringFormat='Entity ID: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding entityType, StringFormat='Entity Type: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding documentNumber, StringFormat='Document Number: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding entityType, StringFormat='Entity Type: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>                                    
                                     <Label FontSize="12" Text="{Binding description, StringFormat='Description: {0}'}"/>                                    
-                                    <Label FontSize="12" Text="{Binding parentID, StringFormat='Parent ID: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding size, StringFormat='Size: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding type, StringFormat='Type: {0}'}"/>
                                 </StackLayout>

@@ -33,8 +33,8 @@ namespace CSmobile.Service
         public bool loginSkip { get; set; }
         public string token { get; set; }
         public List<Ticket> Tickets { get; set; }
-        public List<Tasks> Tasks { get; set; }
-        public List<Contacts> Contacts { get; set; }
+        public IList<Tasks> Tasks { get; set; }
+        public IList<Contacts> Contacts { get; set; }
         public IList<Companies> Companies { get; set; }
         public IList<Document> Documents { get; set; }
         public object docInfo { get; set; }
@@ -187,9 +187,9 @@ namespace CSmobile.Service
             }
         }
 
-        public async Task GetContacts(string search) // Contacts search
+        public async Task GetContacts(string search) // new search
         {
-            var uri = new Uri(string.Format(Constants.ContactsUrl + search));
+            var uri = new Uri(string.Format("http://contentsharewebapi.soltystudio.com/api/v1/Search?EntityType=contactmodel&Query=" + search + "&Size=100"));
             HttpResponseMessage response = null;
             client = new HttpClient();
             LoginSkip(client);
@@ -197,7 +197,7 @@ namespace CSmobile.Service
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Contacts = JsonConvert.DeserializeObject<List<Contacts>>(content, settings);
+                Contacts = JsonConvert.DeserializeObject<ContactsResult>(content, settings).items;
             }
             else
             {
@@ -206,9 +206,9 @@ namespace CSmobile.Service
             }
         }
 
-        public async Task GetCompanies(string search) // Companies search
+        public async Task GetCompanies(string search) // new search
         {
-            var uri = new Uri(string.Format(Constants.CompaniesUrl + search));
+            var uri = new Uri(string.Format("http://contentsharewebapi.soltystudio.com/api/v1/Search?EntityType=companymodel&Query=" + search + "&Size=100"));
             HttpResponseMessage response = null;
             client = new HttpClient();
             LoginSkip(client);
@@ -216,7 +216,7 @@ namespace CSmobile.Service
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Companies = JsonConvert.DeserializeObject<Content>(content, settings).content;
+                Companies = JsonConvert.DeserializeObject<Content>(content, settings).items;
             }
             else
             {
@@ -225,9 +225,9 @@ namespace CSmobile.Service
             }
         }
 
-        public async Task GetDocuments(string search) // add name search
+        public async Task GetDocuments(string search) // new search
         {
-            var uri = new Uri(string.Format(Constants.DocumentSearch + search)); // change url in constants
+            var uri = new Uri(string.Format("http://contentsharewebapi.soltystudio.com/api/v1/Search?EntityType=documentmodel&Query=" + search + "&Size=100")); // change url in constants
             HttpResponseMessage response = null;
             client = new HttpClient();
             LoginSkip(client);
@@ -235,7 +235,7 @@ namespace CSmobile.Service
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Documents = JsonConvert.DeserializeObject<Example>(content, settings).documents;
+                Documents = JsonConvert.DeserializeObject<Example>(content, settings).items;
             }
             else
             {
@@ -244,9 +244,9 @@ namespace CSmobile.Service
             }
         }
 
-        public async Task GetTask()
+        public async Task GetTask(string search)// new search
         {
-            var uri = new Uri(string.Format(Constants.TasksUrl));
+            var uri = new Uri(string.Format("http://contentsharewebapi.soltystudio.com/api/v1/Search?EntityType=taskmodel&Query=" + search + "&Size=100"));
             HttpResponseMessage response = null;
             client = new HttpClient();
             LoginSkip(client);
@@ -254,7 +254,7 @@ namespace CSmobile.Service
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Tasks = JsonConvert.DeserializeObject<List<Tasks>>(content, settings);
+                Tasks = JsonConvert.DeserializeObject<Items>(content, settings).items;                             
             }
             else
             {

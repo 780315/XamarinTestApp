@@ -46,14 +46,7 @@ namespace CSmobile.Models
 
     public class Document
     {
-        public Document(string Document, Array Files, int id, string Type)// finish construtor, where to bind Files?
-        {
-            this.documentName = Document;
-            this.entityID = id;
-            this.entityType = Type;
-        }
-
-        public string id { get; set; }        
+        public string Id { get; set; }        
         public IList<object> cashBookItems { get; set; }
         public ChangeTracker changeTracker { get; set; }
         public object changedBy { get; set; }
@@ -78,7 +71,7 @@ namespace CSmobile.Models
         public int entityID { get; set; }
         public string entityType { get; set; }
         public string filePathGuid { get; set; }
-        public int Id { get; set; }
+        public int id { get; set; }
         public int Lock { get; set; }
         public object parentID { get; set; }
         public object postBook { get; set; }
@@ -95,7 +88,7 @@ namespace CSmobile.Models
 
     public class Example
     {
-        public IList<Document> documents { get; set; }        
+        public IList<Document> items { get; set; }        
         public int total { get; set; }
     }
     

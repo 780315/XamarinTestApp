@@ -16,85 +16,40 @@ namespace CSmobile.Views
         {
             InitializeComponent();
         }
-        public List<Models.Contacts> list { get; set; }
-        string FirstName = "?FirstName=";
-        string LastName = "?LastName=";
-        public string FName { get; set; }
-        public string LName { get; set; }
+        public IList<Models.Contacts> list { get; set; }        
         public int results { get; set; }
        
         async void firstName_TextChanged(object sender, TextChangedEventArgs e)
         {
             firstname.Text = e.NewTextValue;
-            FName = firstname.Text;
-            if (firstname.Text.Length >= 3 && string.IsNullOrEmpty(LName))
+            string searchFilter = firstname.Text;
+            if (searchFilter.Length > 3)
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
-                await App.ApiServices.GetContacts(FirstName + firstname.Text);
+                await App.ApiServices.GetContacts(searchFilter);
                 list = App.ApiServices.Contacts;
-                listview.ItemsSource = list;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
-                listShowAll.IsVisible = false;
-                CountResults();
-            }
-            if (firstname.Text.Length >= 0 && !string.IsNullOrEmpty(LName) && LName.Length >= 3)
-            {
-                listview.ItemsSource = null;
-                listShowAll.ItemsSource = null;
-                await App.ApiServices.GetContacts(FirstName + firstname.Text + "&LastName=" + LName);
-                list = App.ApiServices.Contacts;
-                listview.ItemsSource = list;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
-                listShowAll.IsVisible = false;
-                CountResults();
-            }
-            if (string.IsNullOrEmpty(firstname.Text) && string.IsNullOrEmpty(LName))
-            {
-                listview.ItemsSource = null;
-                listShowAll.ItemsSource = null;
-                Results.Text = "";
-            }
-        }
-
-        async void lastName_TextChanged(object sender, TextChangedEventArgs e)
-        {            
-            lastname.Text = e.NewTextValue;
-            LName = lastname.Text;
-            if (lastname.Text.Length >= 3 && string.IsNullOrEmpty(FName))
-            {
-                listview.ItemsSource = null;
-                listShowAll.ItemsSource = null;
-                await App.ApiServices.GetContacts(LastName + lastname.Text);
-                list = App.ApiServices.Contacts;
-                listview.ItemsSource = list;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
-                listShowAll.IsVisible = false;
-                CountResults();
+                if (list.Count != 0)
+                {
+                    listview.ItemsSource = list;
+                    listview.IsVisible = false;
+                    listview.IsVisible = true;
+                    listShowAll.IsVisible = false;
+                    CountResults();
+                }
+                else
+                {
+                    listview.ItemsSource = null;
+                }
             }           
-            if (!string.IsNullOrEmpty(FName) && FName.Length >= 3 && lastname.Text.Length >= 0)
+            if (string.IsNullOrEmpty(firstname.Text))
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
-                await App.ApiServices.GetContacts(FirstName + FName + "&LastName=" + lastname.Text);
-                list = App.ApiServices.Contacts;
-                listview.ItemsSource = list;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
-                listShowAll.IsVisible = false;
-                CountResults();
-            }
-            if (string.IsNullOrEmpty(lastname.Text) && string.IsNullOrEmpty(FName))
-            {
-                listShowAll.ItemsSource = null;
-                listview.ItemsSource = null;
                 Results.Text = "";
             }
         }
-
+               
         private void CountResults()
         {
             results = list.Count();

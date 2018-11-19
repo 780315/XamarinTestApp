@@ -26,6 +26,11 @@ namespace CSmobile.Models
         public string changedOn { get; set; }
         public int version { get; set; }
 
+        
+        public string contactPersonName { get; set; }       
+        public string customProperties { get; set; }
+        
+
         public Tasks() { }
 
         public Tasks(int id, string title, string description, string descriptionHtml, int assignedUserId, string deadline, int deadlineType, int clientId, int contactPersonId, int status, int reminderInterval, bool inCalendar, int parentTask, string fromDate, int createdBy, string createdOn, int changedBy, string changedOn, int version)
@@ -50,5 +55,12 @@ namespace CSmobile.Models
             this.changedOn = changedOn;
             this.version = version;
         }
+        
+    }
+    public class Items
+    {
+        public int id { get; set; }
+        public IList<Tasks> items { get; set; }
+        public int total { get; set; }
     }
 }

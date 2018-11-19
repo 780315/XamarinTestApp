@@ -43,4 +43,9 @@ namespace CSmobile.Models
             this.street = street;
         }
     }
+    public class ContactsResult
+    {
+        public IList<Contacts> items { get; set; }
+        public int total { get; set; }
+    }
 }

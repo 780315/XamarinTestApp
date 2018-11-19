@@ -12,10 +12,8 @@ namespace CSmobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Companie : ContentPage
-	{
-        public string Name { get; set; }
+	{        
         public IList<Companies> list { get; set; }
-        public string companieName = "?Name=";
         public int results { get; set; }
 
         public Companie ()
@@ -26,20 +24,27 @@ namespace CSmobile.Views
         async void nameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             nameSearch.Text = e.NewTextValue;
-            Name = nameSearch.Text;
-            if (Name.Length >= 2)
+            string searchFilter = nameSearch.Text;
+            if (searchFilter.Length > 0)
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
-                await App.ApiServices.GetCompanies(companieName + nameSearch.Text);
+                await App.ApiServices.GetCompanies(searchFilter);
                 list = App.ApiServices.Companies;
-                listview.ItemsSource = list;
-                listview.IsVisible = false;
-                listview.IsVisible = true;
-                listShowAll.IsVisible = false;
-                CountResults();
+                if (list.Count != 0)
+                {
+                    listview.ItemsSource = list;
+                    listview.IsVisible = false;
+                    listview.IsVisible = true;
+                    listShowAll.IsVisible = false;
+                    CountResults();
+                }
+                else
+                {
+                    listview.ItemsSource = null;
+                }                
             }
-            if(string.IsNullOrEmpty(Name))
+            if(string.IsNullOrEmpty(searchFilter))
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;

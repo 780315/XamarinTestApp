@@ -56,9 +56,18 @@
                 FontSize="22" 
                 HorizontalOptions="CenterAndExpand" />
 
+                <StackLayout Orientation="Horizontal" >                    
+                    <Entry x:Name="Search" 
+                       Margin="0,-15,0,0"
+                       HorizontalOptions="FillAndExpand"
+                       MaxLength="20"
+                       TextChanged="Search_TextChanged"
+                       Placeholder="Search"/>
+                </StackLayout>
+                
                 <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
                 <!--<ScrollView>-->
-                <ListView x:Name="listview" RowHeight="170" ItemTapped="listview_ItemTapped">
+                <ListView x:Name="listview" RowHeight="150" ItemTapped="listview_ItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -74,7 +83,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <ListView x:Name="listShowAll" RowHeight="460" IsVisible="False" >
+                <ListView x:Name="listShowAll" RowHeight="320" IsVisible="False" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -83,21 +92,21 @@
                                     <Label FontSize="12" Text="{Binding id, StringFormat='Task Id: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding title, StringFormat='Title: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding description, StringFormat='Description: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding deadline, StringFormat='Deadline: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding assignedUserId, StringFormat='Assigned User: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>-->
+                                    <Label FontSize="12" Text="{Binding deadline, StringFormat='Deadline: {0}'}"/>                                    
                                     <Label FontSize="12" Text="{Binding deadlineType, StringFormat='Deadline type: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding assignedUserId, StringFormat='Assigned User: {0}'}"/>
                                     <Label FontSize="12" Text="{Binding clientId, StringFormat='Client Id: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding contactPersonId, StringFormat='Contact Id: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding status, StringFormat='Status: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding reminderInterval, StringFormat='Reminder Interval: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding inCalendar, StringFormat='In Calendar: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding parentTask, StringFormat='Parent Task: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding fromDate, StringFormat='From date: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding createdBy, StringFormat='Created by: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding changedBy, StringFormat='Changed by: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding contactPersonName, StringFormat='Contact Name: {0}'}"/>
+                                    <!--<Label FontSize="12" Text="{Binding status, StringFormat='Status: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding reminderInterval, StringFormat='Reminder Interval: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding inCalendar, StringFormat='In Calendar: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding parentTask, StringFormat='Parent Task: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding fromDate, StringFormat='From date: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding createdBy, StringFormat='Created by: {0}'}"/>-->
+                                    <!--<Label FontSize="12" Text="{Binding changedBy, StringFormat='Changed by: {0}'}"/>-->
                                     <Label FontSize="12" Text="{Binding changedOn, StringFormat='Changed On: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding version, StringFormat='Version: {0}'}"/>
+                                    <Label FontSize="12" Text="{Binding customProperties, StringFormat='Custom Properties: {0}'}"/>
                                     <Button Text="Edit Task" Clicked="EditTask" VerticalOptions="StartAndExpand" HeightRequest="40"/>
                                 </StackLayout>
                             </ViewCell>

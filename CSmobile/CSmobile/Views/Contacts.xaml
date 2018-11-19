@@ -12,22 +12,13 @@
                 FontSize="22" 
                 HorizontalOptions="CenterAndExpand" />
             
-            <StackLayout Orientation="Horizontal" >                
-                <Label Text="First Name"
-                       Margin="5, 15, 0, 0"/>                
+            <StackLayout Orientation="Horizontal" > 
                 <Entry x:Name="firstname" 
-                       Margin="-80,25,0,0"
+                       Margin="0,25,0,0"
                        HorizontalOptions="FillAndExpand"
-                       MaxLength="6"
-                       TextChanged="firstName_TextChanged"/>
-
-                <Label Text="Last Name"
-                       Margin="0, 15, 0, 0"/>                
-                <Entry x:Name="lastname" 
-                       Margin="-80,25,0,0"
-                       HorizontalOptions="FillAndExpand"
-                       MaxLength="10"
-                       TextChanged="lastName_TextChanged"/>                
+                       MaxLength="15"
+                       Placeholder="Search"
+                       TextChanged="firstName_TextChanged"/>                              
             </StackLayout>
             <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
             

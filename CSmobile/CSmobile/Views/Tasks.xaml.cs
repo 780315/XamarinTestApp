@@ -17,9 +17,8 @@ namespace CSmobile.Views
             datePicker.MinimumDate = DateTime.Now;
             datePicker.MaximumDate = DateTime.MaxValue;
             datePicker.Date = DateTime.Now;
-            LoadList();            
         }
-        public List<Models.Tasks> list { get; set; }
+        public IList<Models.Tasks> list { get; set; }
         public int results { get; set; }
         public int id { get; set; }
         public Models.Tasks tasks { get; set; }
@@ -48,14 +47,12 @@ namespace CSmobile.Views
             {
                 await DisplayAlert("Task", "Task Edited", "Ok");
                 ClearFields();
-                HideCreateView();
-                LoadList();
+                HideCreateView();                
             }
             else
             {
                 await DisplayAlert("Task", "Task Not Edited", "Ok");
                 HideCreateView();
-                LoadList();
             }
         }
 
@@ -98,8 +95,9 @@ namespace CSmobile.Views
         {
             if (list.Count != 0)
             {
-                var value = listview.SelectedItem;
+                var value = listview.SelectedItem;                
                 Models.Tasks tasks = (Models.Tasks)value;
+                //int id = tasks.id;
                 list = new List<Models.Tasks>();
                 list.Add(tasks);
                 listview.ItemsSource = null;
@@ -114,28 +112,7 @@ namespace CSmobile.Views
             }
         }
 
-        private async void LoadList()
-        {
-            if (createLayout.IsVisible == false)
-            {
-                listview.ItemsSource = null;
-                listShowAll.ItemsSource = null;
-                await App.ApiServices.GetTask();
-                list = App.ApiServices.Tasks;
-                if (list.Count != 0)
-                {
-                    listview.ItemsSource = list;
-                    listview.IsVisible = false;
-                    listview.IsVisible = true;
-                    listShowAll.IsVisible = false;
-                    CountResults();
-                }
-                else
-                {
-                    listview.ItemsSource = null;
-                }
-            }
-        }
+
 
         private void CountResults()
         {
@@ -156,8 +133,7 @@ namespace CSmobile.Views
             tasks = (Models.Tasks)value;
             title.Text = tasks.title;
             description.Text = tasks.description;
-            datePicker.Date = Convert.ToDateTime(tasks.createdOn);
-            //id = tasks.id;
+            datePicker.Date = Convert.ToDateTime(tasks.createdOn);            
             ShowCreateView();
             listShowAll.ItemsSource = null;
             listShowAll.IsVisible = false;
@@ -173,6 +149,37 @@ namespace CSmobile.Views
         {
             MainPage main = new MainPage();
             Application.Current.MainPage = main;
+        }
+
+        private async void Search_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Search.Text = e.NewTextValue;
+            string searchFilter = Search.Text;
+            if (searchFilter.Length > 0)
+            {
+                listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
+                await App.ApiServices.GetTask(searchFilter);
+                list = App.ApiServices.Tasks;
+                if (list.Count != 0)
+                {
+                    listview.ItemsSource = list;
+                    listview.IsVisible = false;
+                    listview.IsVisible = true;
+                    listShowAll.IsVisible = false;
+                    CountResults();
+                }
+                else
+                {
+                    listview.ItemsSource = null;
+                }
+            }
+            if (string.IsNullOrEmpty(searchFilter))            
+            {
+                listview.ItemsSource = null;
+                listShowAll.ItemsSource = null;
+                Results.Text = "";
+            }
         }
     }
 }
