@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telerik.XamarinForms.DataControls.ListView;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -47,7 +48,7 @@ namespace CSmobile.Views
             {
                 await DisplayAlert("Task", "Task Edited", "Ok");
                 ClearFields();
-                HideCreateView();                
+                HideCreateView();
             }
             else
             {
@@ -67,7 +68,7 @@ namespace CSmobile.Views
         {
             ShowCreateView();
         }
-        private void ShowCreateView()
+        public void ShowCreateView()
         {
             Results.Text = "";
             lbltask.IsVisible = false;
@@ -78,6 +79,7 @@ namespace CSmobile.Views
             Create.IsVisible = true;
             Label1.IsVisible = true;
             editLbl.IsVisible = false;
+            Search.IsVisible = false;
         }
         private void HideCreateView()
         {
@@ -91,11 +93,11 @@ namespace CSmobile.Views
             Edit.IsVisible = false;
         }
 
-        private void listview_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void listview_ItemTapped(object sender, ItemTapEventArgs e)
         {
             if (list.Count != 0)
             {
-                var value = listview.SelectedItem;                
+                var value = e.Item;
                 Models.Tasks tasks = (Models.Tasks)value;
                 //int id = tasks.id;
                 list = new List<Models.Tasks>();
@@ -133,7 +135,7 @@ namespace CSmobile.Views
             tasks = (Models.Tasks)value;
             title.Text = tasks.title;
             description.Text = tasks.description;
-            datePicker.Date = Convert.ToDateTime(tasks.createdOn);            
+            datePicker.Date = Convert.ToDateTime(tasks.createdOn);
             ShowCreateView();
             listShowAll.ItemsSource = null;
             listShowAll.IsVisible = false;
@@ -147,8 +149,29 @@ namespace CSmobile.Views
 
         private void GoToMenu(object sender, EventArgs e)
         {
-            MainPage main = new MainPage();
-            Application.Current.MainPage = main;
+            if (createLayout.IsVisible == false && listShowAll.IsVisible == false)
+            {
+                MainPage main = new MainPage();
+                Application.Current.MainPage = main;
+            }
+            if (createLayout.IsVisible == false && listShowAll.IsVisible == true)
+            {
+                listview.IsVisible = true;
+                Search.Text = string.Empty;
+                listview.ItemsSource = App.ApiServices.Tasks;
+                listShowAll.IsVisible = false;
+                Results.IsVisible = true;
+                if (listview.ItemsSource != null)
+                {
+                    var result = App.ApiServices.Tasks.Count();
+                    Results.Text = "Results: " + result.ToString();
+                }
+            }            
+            if (createLayout.IsVisible == true)
+            {
+                HideCreateView();
+                Search.IsVisible = true;
+            }
         }
 
         private async void Search_TextChanged(object sender, TextChangedEventArgs e)
@@ -174,12 +197,17 @@ namespace CSmobile.Views
                     listview.ItemsSource = null;
                 }
             }
-            if (string.IsNullOrEmpty(searchFilter))            
+            if (string.IsNullOrEmpty(searchFilter))
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
                 Results.Text = "";
             }
+        }
+
+        private void LogOut(object sender, EventArgs e)
+        {
+            App.ApiServices.Logout();
         }
     }
 }

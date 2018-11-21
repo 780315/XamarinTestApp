@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Telerik.XamarinForms.DataControls;
+using Telerik.XamarinForms.DataControls.ListView;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,12 +16,13 @@ namespace CSmobile.Views
         public Contacts()
         {
             InitializeComponent();
+            
         }
         public IList<Models.Contacts> list { get; set; }        
         public int results { get; set; }
        
         async void firstName_TextChanged(object sender, TextChangedEventArgs e)
-        {
+        {           
             firstname.Text = e.NewTextValue;
             string searchFilter = firstname.Text;
             if (searchFilter.Length > 3)
@@ -35,12 +37,12 @@ namespace CSmobile.Views
                     listview.IsVisible = false;
                     listview.IsVisible = true;
                     listShowAll.IsVisible = false;
-                    CountResults();
+                    CountResults();                                   
                 }
                 else
                 {
                     listview.ItemsSource = null;
-                }
+                }                
             }           
             if (string.IsNullOrEmpty(firstname.Text))
             {
@@ -63,11 +65,11 @@ namespace CSmobile.Views
             }
         }
 
-        private void listview_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
+        private void listview_ItemTapped(object sender, ItemTapEventArgs e)
+        {             
             if (list.Count != 0)
-            {
-                var value = listview.SelectedItem;
+            {                      
+                var value = e.Item;
                 Models.Contacts contact = (Models.Contacts)value;
                 list = new List<Models.Contacts>();
                 list.Add(contact);
@@ -86,8 +88,29 @@ namespace CSmobile.Views
 
         private void GoToMenu(object sender, EventArgs e)
         {
-            MainPage main = new MainPage();
-            Application.Current.MainPage = main;
+            if (listShowAll.IsVisible == false)
+            {
+                MainPage main = new MainPage();
+                Application.Current.MainPage = main;
+            }
+            if (listShowAll.IsVisible == true)
+            {
+                listview.IsVisible = true;
+                firstname.Text = string.Empty;
+                listview.ItemsSource = App.ApiServices.Contacts;
+                listShowAll.IsVisible = false;
+                Results.IsVisible = true;
+                if (listview.ItemsSource != null)
+                {
+                    var result = App.ApiServices.Contacts.Count();
+                    Results.Text = "Results: " + result.ToString();
+                }
+            }            
+        }
+
+        private void LogOut(object sender, EventArgs e)
+        {
+            App.ApiServices.Logout();
         }
     }
 }

@@ -11,6 +11,7 @@ using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System.IO;
 using System.Security.Cryptography;
+using Telerik.XamarinForms.DataControls.ListView;
 
 namespace CSmobile.Views
 {
@@ -29,7 +30,7 @@ namespace CSmobile.Views
         public int results { get; set; }
         public long img { get; set; }
         public string imgName { get; set; }
-        public string checkSum { get; set; }
+        public string path { get; set; }
 
         public Tickets()
         {
@@ -42,7 +43,7 @@ namespace CSmobile.Views
             await App.ApiServices.PostTickets(ticket);
             if (App.ApiServices.ticketPost == true)
             {
-                await App.ApiServices.DocumentCommit(imgName, Convert.ToInt32(img), "Ticket");
+                await App.ApiServices.DocumentCommit(path, imgName, App.ApiServices.id.ToString(), "Ticket");
                 await DisplayAlert("Ticket", "Ticket Created", "Ok");
                 ClearFields();
             }
@@ -66,9 +67,8 @@ namespace CSmobile.Views
                 await DisplayAlert("Ticket", "Ticket Not Edited", "Ok");
             }
             HideCreateView();
-            titleSearch.Text = string.Empty;
-            descriptionSearch.Text = string.Empty;
-            searchTickets.IsVisible = true;
+            Search.Text = string.Empty;
+            Search.IsVisible = true;
         }
 
 
@@ -77,6 +77,7 @@ namespace CSmobile.Views
             title.Text = string.Empty;
             description.Text = string.Empty;
             document.Text = string.Empty;
+            FileImage.Source = null;
         }
 
         private async void DocumentUpload(object sender, EventArgs e)// method working ?
@@ -104,11 +105,11 @@ namespace CSmobile.Views
                 _mediaFile.GetStream().CopyTo(memoryStream);
                 img = memoryStream.Length;
             }
-            string str = Convert.ToString(_mediaFile.Path);
+            path = Convert.ToString(_mediaFile.Path);
 
-            imgName = str.Substring(str.LastIndexOf('/') + 1);
+            imgName = path.Substring(path.LastIndexOf('/') + 1);
 
-            await App.ApiServices.DocumentInit(imgName, "Ticket", _mediaFile.GetStream());
+            await App.ApiServices.DocumentInit(path, imgName, "0", "Ticket");
         }
 
         private void Back_Clicked(object sender, EventArgs e)
@@ -116,20 +117,20 @@ namespace CSmobile.Views
             createLayout.IsVisible = false;
             Create.IsVisible = false;
             lblticket.IsVisible = true;
-            searchTickets.IsVisible = true;
+            Search.IsVisible = true;
             listview.IsVisible = true;
             CreateView.IsVisible = true;
         }
 
         async void titleSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            titleSearch.Text = e.NewTextValue;
-            Ttitle = titleSearch.Text;
-            if (Ttitle.Length >= 3 && string.IsNullOrEmpty(Tdescription))
+            Search.Text = e.NewTextValue;
+            string searchFilter = Search.Text;
+            if (searchFilter.Length >= 3)
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
-                await App.ApiServices.GetTickets(ticketTitle + titleSearch.Text);
+                await App.ApiServices.GetTickets(searchFilter);
                 list = App.ApiServices.Tickets;
                 if (list.Count != 0)
                 {
@@ -143,94 +144,21 @@ namespace CSmobile.Views
                 {
                     listview.ItemsSource = null;
                 }
-            }
-            if (titleSearch.Text.Length >= 0 && !string.IsNullOrEmpty(Tdescription) && Tdescription.Length >= 3)
-            {
-                listview.ItemsSource = null;
-                listShowAll.ItemsSource = null;
-                await App.ApiServices.GetTickets(ticketTitle + titleSearch.Text + "&Description=" + Tdescription);
-                list = App.ApiServices.Tickets;
-                if (list.Count != 0)
-                {
-                    listview.ItemsSource = list;
-                    listview.IsVisible = false;
-                    listview.IsVisible = true;
-                    listShowAll.IsVisible = false;
-                    CountResults();
-                }
-                else
-                {
-                    listview.ItemsSource = null;
-                }
-
-            }
-            if (string.IsNullOrEmpty(titleSearch.Text) && string.IsNullOrEmpty(Tdescription))
+            }           
+            if (string.IsNullOrEmpty(searchFilter))
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
                 Results.Text = "";
             }
-        }
-
-        async void descriptionSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            descriptionSearch.Text = e.NewTextValue;
-            Tdescription = descriptionSearch.Text;
-            if (descriptionSearch.Text.Length >= 3 && string.IsNullOrEmpty(Ttitle))
-            {
-                listview.ItemsSource = null;
-                listShowAll.ItemsSource = null;
-                await App.ApiServices.GetTickets(ticketDescription + descriptionSearch.Text);
-                list = App.ApiServices.Tickets;
-                if (list.Count != 0)
-                {
-                    listview.ItemsSource = list;
-                    listview.IsVisible = false;
-                    listview.IsVisible = true;
-                    listShowAll.IsVisible = false;
-                    CountResults();
-                }
-                else
-                {
-                    listview.ItemsSource = null;
-                }
-
-            }
-            if (!string.IsNullOrEmpty(Ttitle) && Ttitle.Length >= 3 && descriptionSearch.Text.Length >= 0)
-            {
-                listview.ItemsSource = null;
-                listShowAll.ItemsSource = null;
-                await App.ApiServices.GetTickets(ticketTitle + Ttitle + "&Description=" + descriptionSearch.Text);
-                list = App.ApiServices.Tickets;
-                if (list.Count != 0)
-                {
-                    listview.ItemsSource = list;
-                    listview.IsVisible = false;
-                    listview.IsVisible = true;
-                    listShowAll.IsVisible = false;
-                    CountResults();
-                }
-                else
-                {
-                    listview.ItemsSource = null;
-                }
-
-            }
-            if (string.IsNullOrEmpty(descriptionSearch.Text) && string.IsNullOrEmpty(Ttitle))
-            {
-                listShowAll.ItemsSource = null;
-                listview.ItemsSource = null;
-                Results.Text = "";
-            }
-        }
+        }      
 
         private void CreateView_Clicked(object sender, EventArgs e)
         {
             Results.Text = "";
-            titleSearch.Text = "";
-            descriptionSearch.Text = "";
+            Search.Text = "";
             lblticket.IsVisible = false;
-            searchTickets.IsVisible = false;
+            Search.IsVisible = false;
             listview.IsVisible = false;
             listview.ItemsSource = null;
             CreateView.IsVisible = false;
@@ -239,7 +167,7 @@ namespace CSmobile.Views
             Label1.IsVisible = true;
             editLbl.IsVisible = false;
             docLbl.IsVisible = true;
-            Back.IsVisible = true;
+            
         }
 
         private void CountResults()
@@ -255,11 +183,11 @@ namespace CSmobile.Views
             }
         }
 
-        private void listview_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void listview_ItemTapped(object sender, ItemTapEventArgs e)
         {
             if (list.Count != 0)
             {
-                var value = listview.SelectedItem;
+                var value = e.Item;
                 Ticket ticket = (Ticket)value;
                 list = new List<Ticket>();
                 list.Add(ticket);
@@ -315,15 +243,42 @@ namespace CSmobile.Views
             editLbl.Focus();
             document.IsVisible = false;
             FileImage.IsVisible = false;
-            searchTickets.IsVisible = false;
+            Search.IsVisible = false;
             docLbl.IsVisible = false;
-            Back.IsVisible = false;
+            
         }
 
         private void GoToMenu(object sender, EventArgs e)
         {
-            MainPage main = new MainPage();
-            Application.Current.MainPage = main;
+            if (createLayout.IsVisible == false && listShowAll.IsVisible == false)
+            {
+                MainPage main = new MainPage();
+                Application.Current.MainPage = main;
+            }
+            if (createLayout.IsVisible == false && listShowAll.IsVisible == true)
+            {
+                listview.IsVisible = true;
+                Search.Text = string.Empty;
+                listview.ItemsSource = App.ApiServices.Tickets;                
+                listShowAll.IsVisible = false;
+                Results.IsVisible = true;
+                if (listview.ItemsSource != null)
+                {
+                    var result = App.ApiServices.Tickets.Count();
+                    Results.Text = "Results: " + result.ToString();
+                }
+            }            
+            if (createLayout.IsVisible == true)
+            {
+                HideCreateView();                
+                Search.IsVisible = true;
+            }
         }
+
+        private void LogOut(object sender, EventArgs e)
+        {
+            App.ApiServices.Logout();
+        }
+
     }
 }

@@ -16,7 +16,7 @@
     <item name="colorPrimaryDark">#1976D2</item>
     <!-- colorAccent is used as the default value for colorControlActivated
          which is used to tint widgets -->
-    <item name="colorAccent">#FF4081</item>
+    <item name="colorAccent">#FFFFFF</item>
     <!-- You can also set colorControlNormal, colorControlActivated
          colorControlHighlight and colorSwitchThumbNormal. -->
     <item name="windowActionModeOverlay">true</item>
@@ -30,7 +30,7 @@
   <style name="FullScreenTheme" parent="Theme.AppCompat">
     <item name="colorPrimary">#3F51B5</item>
     <item name="colorPrimaryDark">#303F9F</item>
-    <item name="colorAccent">#FF4081</item>
+    <item name="colorAccent">#FFFFFF</item>
 
     <item name="windowNoTitle">true</item>
     <item name="windowActionBar">false</item>

@@ -2,34 +2,51 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CSmobile.Models"
+             xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
              x:Class="CSmobile.Login">
-           
-    <ContentPage.Content>        
+
+    <ContentPage.Content>
         <StackLayout Spacing="0" Padding="0">
             <Image Source="logo.png"
                    Margin="0, 20, 0, 0"
                    WidthRequest="40"
                    HorizontalOptions="Center"/>
+            
             <Label Text="Welcome"
                    HorizontalOptions="CenterAndExpand"
                    Margin="0, 5, 0, 0" 
                    FontSize="26"/>
+            
             <Label Text="Please insert your name and password"
                    HorizontalOptions="CenterAndExpand"
                    Margin="0, 0, 0, 0" 
                    FontSize="10"/>
-            <Label Text="Username"                    
+            
+            <!--<Label Text="Username"                    
                    Margin="5, 15, 0, 0"/>
-            <Entry x:Name="username" />
-            <Label Text="Password"
+            <Entry x:Name="username" />-->
+
+            <telerikInput:RadEntry x:Name="username" WatermarkText="Enter username" 
+                                   FontSize="15" Margin="0, 15, 0, 0"/>
+
+            <!--<Label Text="Password"
                    Margin="5, 0, 0, 0"/>
             <Entry x:Name="password" 
-                   IsPassword="true" />
-            <Button x:Name="LogIn" Clicked="LogInProcedure" 
+                   IsPassword="true" />-->
+
+            <telerikInput:RadEntry x:Name="password" WatermarkText="Enter password" FontSize="15"
+                                   IsPassword="True"  Margin="0, 15, 0, 0" />            
+            
+            <!--<Button x:Name="LogIn" Clicked="LogInProcedure" 
                     Text="Login"  VerticalOptions="StartAndExpand"                     
-                    Margin="0, 5, 0, 0"/>
+                    Margin="0, 5, 0, 0"/>-->
+
+            <telerikInput:RadButton x:Name="LogIn" Text="Login" BorderRadius="5" Margin="5, 10, 5, 0" 
+                        VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="40"  
+                        WidthRequest="160" FontSize="15" Clicked="LogInProcedure"/>
+
             <Label Text="Forgot Password"
-                   Margin="5, 0, 0, 150"
+                   Margin="5, 10, 0, 150"
                    x:Name="Lbl_Click"/>
         </StackLayout>
     </ContentPage.Content>

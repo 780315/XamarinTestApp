@@ -40,6 +40,12 @@ namespace CSmobile
             Tasks tasks = new Tasks();
             Application.Current.MainPage = tasks;
         }
+        private void NewTasks(object sender, EventArgs e)
+        {
+            Tasks tasks = new Tasks();
+            Application.Current.MainPage = tasks;
+            tasks.ShowCreateView();
+        }
 
         private void Logout(object sender, EventArgs e)
         {

@@ -41,6 +41,7 @@ namespace CSmobile.Service
         public int id { get; set; }
         public bool taskPut { get; set; }
         public bool ticketPut { get; set; }
+        public string doc { get; set; }
 
         private JsonSerializerSettings settings = new JsonSerializerSettings
         {
@@ -388,83 +389,65 @@ namespace CSmobile.Service
 
             Application.Current.MainPage = login;
         }
-
-        public async Task DocumentInit(string name, string type, Stream stream) // Not working
-        {
-            #region previousCode
-            /*var uri = new Uri(string.Format(Constants.DocumentInit, string.Empty));
-                client = new HttpClient();
-                //docInfo = new { entityType = type, entityId = 0, documentName = name, size = img, savedAsTemp = true, createdOn = DateTime.Now.ToShortDateString(), checkSum = checkSum };
-                //var json = JsonConvert.SerializeObject(docInfo);
-                //var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var values = new Dictionary<string, object>
-                {
-                   { "entityType" , type },
-                   { "entityId" , "0" },
-                   { "documentName" , name },
-                   {"files",  stream}
-                };
-
-                var content = new FormUrlEncodedContent(values);
-
-                HttpResponseMessage response = null;
-                LoginSkip(client);
-                response = await client.PostAsync(uri, content);
-
-
-                var responseString = await response.Content.ReadAsStringAsync();
-                */ 
-            #endregion
-
-            try
-            {
-                byte[] data = new byte[10* 1024 * 1024];
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    int read;
-                    while ((read = stream.Read(data, 0, data.Length)) > 0)
-                    {
-                        ms.Write(data, 0, read);
-                    }
-                    ms.ToArray();
-                }
                 
-                HttpWebRequest wr = (HttpWebRequest) WebRequest.Create(Constants.DocumentInit);
-                wr.ContentType = "multipart/form-data";
-                wr.ContentLength = data.Length;
-                wr.Method = "POST";
-                wr.KeepAlive = true;
-                //wr.Headers.Add("UserAgent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
-                wr.Headers.Add("entityType", type);
-                wr.Headers.Add("entityId", "0");
-                wr.Headers.Add("documentName", name);
-                wr.Headers.Add("Authentication", "bearer " + Application.Current.Properties["token"].ToString());
-               
-                using (Stream postStream = wr.GetRequestStream())
-                {   
-                    // Send the data.
-                    postStream.Write(data, 0, data.Length);
-                    postStream.Close();
-                    var webResponse = wr.GetResponse(); // 502 bad gateway error
-                }
-            }
-            catch (Exception ex)
-            {
-                //Log exception here...
-                Console.Write("");
-            }
-        }
-       
-        public async Task DocumentCommit(string name, int img, string Type) // Not working
+        public async Task DocumentInit(string path, string fileName, string id, string entityType)// working
         {
-            var uri = new Uri(string.Format(Constants.DocumentCommit, string.Empty));
-            client = new HttpClient();
-            docInfo = new {entityType = Type, entityId = id, documentName = name, files = img};
-            var json = JsonConvert.SerializeObject(docInfo);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = null;
-            response = await client.PostAsync(uri, content);
+            HttpClient client = new HttpClient();
+
+            LoginSkip(client);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/bson"));
+                        
+            var stream = System.IO.File.ReadAllBytes(path);
+
+            var content = new ByteArrayContent(stream);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/bson");
+
+            MultipartFormDataContent form = new MultipartFormDataContent();
+            form.Add(content, "files", fileName);
+
+            form.Add(new StringContent(entityType), "entityType");
+            form.Add(new StringContent(id), "entityId");
+            form.Add(new StringContent(fileName), "documentName");
+
+            var response = await client.SendAsync(new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                Content = form,
+                RequestUri = new Uri(Constants.DocumentInit)
+            });
+           
+            var docval = await response.Content.ReadAsStringAsync(); //remove chars "\"  
+            docval = docval.Substring(12);
+            docval = docval.Remove(docval.Length - 1);
+            doc = docval;           
+        }
+
+        public async Task DocumentCommit(string path, string fileName, string id, string entityType) // working
+        {
+            HttpClient client = new HttpClient();
+
+            LoginSkip(client);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/bson"));
+
+            var stream = System.IO.File.ReadAllBytes(path);
+
+            var content = new ByteArrayContent(stream);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/bson");
+
+            MultipartFormDataContent form = new MultipartFormDataContent();
+            //form.Add(content, "document", doc);
+
+            form.Add(new StringContent(entityType), "entityType");
+            form.Add(new StringContent(id), "entityId");
+            form.Add(new StringContent(doc), "document");
+
+            var response = await client.SendAsync(new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                Content = form,
+                RequestUri = new Uri(Constants.DocumentCommit)
+            });
+            
         }
 
         private async void GetId(HttpResponseMessage response) //working

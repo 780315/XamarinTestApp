@@ -1,30 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+             xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
              x:Class="CSmobile.Views.Documents">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <Button HeightRequest="30" HorizontalOptions="Start" Image="left_arrow.png"
-                        Clicked="GoToMenu"/>
+                <StackLayout Orientation="Horizontal">
+                    <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
+                                BackgroundColor="DarkGray" BorderRadius="13" 
+                                Image="left_arrow.png" HorizontalOptions="StartAndExpand"
+                                Margin="5,5,0,0" Clicked="GoToMenu"/>
+
+                    <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
+                                BackgroundColor="Red" BorderRadius="13" 
+                                Image="log_out.png" HorizontalOptions="EndAndExpand"
+                                Margin="0,5,5,0" Clicked="LogOut"/>
+                </StackLayout>
                 <Label Text="Documents"
-                Margin="0, 5, 0, 0" 
+                Margin="0, 15, 0, 5" 
                 FontSize="22" 
                 HorizontalOptions="CenterAndExpand" />
+
+                <telerikInput:RadEntry x:Name="nameSearch" Margin="0,0,0,0" FontSize="15"
+                                   HorizontalOptions="FillAndExpand" WatermarkText="Search" 
+                                   TextChanged="nameSearch_TextChanged"/>
+
                 
-                <StackLayout x:Name="searchTickets" Orientation="Horizontal" >                    
-                    <Entry x:Name="nameSearch" 
-                       Margin="0,25,0,0"
-                       HorizontalOptions="FillAndExpand"
-                       MaxLength="15"
-                       Placeholder="Search"
-                       TextChanged="nameSearch_TextChanged"/>
-
-                </StackLayout>
-
                 <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
                 <!--<ScrollView>-->
-                <ListView x:Name="listview" RowHeight="140" ItemTapped="listview_ItemTapped">
+                <!--<ListView x:Name="listview" RowHeight="140" ItemTapped="listview_ItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -38,9 +45,30 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
+                </ListView>-->
 
-                <ListView x:Name="listShowAll" RowHeight="200" IsVisible="False" >
+                <telerikDataControls:RadListView x:Name="listview" ItemTapped="listview_ItemTapped">
+                <telerikDataControls:RadListView.ItemTemplate>
+                    <DataTemplate>
+                        <telerikListView:ListViewTemplateCell>
+                            <telerikListView:ListViewTemplateCell.View>
+                                <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                        <Label FontSize="15" HorizontalOptions="CenterAndExpand" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding entityID, StringFormat='Entity ID: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding entityType, StringFormat='Entity Type: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                    </StackLayout>
+                            </telerikListView:ListViewTemplateCell.View>
+                        </telerikListView:ListViewTemplateCell>
+                    </DataTemplate>
+                </telerikDataControls:RadListView.ItemTemplate>
+                <telerikDataControls:RadListView.GroupDescriptors>
+                    <telerikListView:PropertyGroupDescriptor PropertyName="documentName"/>
+                </telerikDataControls:RadListView.GroupDescriptors>
+                </telerikDataControls:RadListView>
+
+                <!--<ListView x:Name="listShowAll" RowHeight="200" IsVisible="False" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -59,7 +87,31 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
+                </ListView>-->
+
+                <telerikDataControls:RadListView x:Name="listShowAll" IsVisible="False">
+                <telerikDataControls:RadListView.ItemTemplate>
+                    <DataTemplate>
+                        <telerikListView:ListViewTemplateCell>
+                            <telerikListView:ListViewTemplateCell.View>
+                                <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                        <Label FontSize="15" HorizontalOptions="CenterAndExpand" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding id, StringFormat='Document ID: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding entityID, StringFormat='Entity ID: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding entityType, StringFormat='Entity Type: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding documentNumber, StringFormat='Document Number: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding description, StringFormat='Description: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding size, StringFormat='Size: {0}'}"/>
+                                        <Label FontSize="13" Text="{Binding type, StringFormat='Type: {0}'}"/>
+                                    </StackLayout>
+                            </telerikListView:ListViewTemplateCell.View>
+                        </telerikListView:ListViewTemplateCell>
+                    </DataTemplate>
+                </telerikDataControls:RadListView.ItemTemplate>
+                </telerikDataControls:RadListView>
+
                 <!--</ScrollView>-->
             </StackLayout>
         </ScrollView>

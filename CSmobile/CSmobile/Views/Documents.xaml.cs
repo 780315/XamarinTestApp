@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Telerik.XamarinForms.DataControls.ListView;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -65,11 +65,11 @@ namespace CSmobile.Views
             }
         }
 
-        private void listview_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void listview_ItemTapped(object sender, ItemTapEventArgs e)
         {
             if (list.Count != 0)
             {
-                var value = listview.SelectedItem;
+                var value = e.Item;
                 Document document = (Document)value;
                 list = new List<Document>();
                 list.Add(document);
@@ -88,8 +88,31 @@ namespace CSmobile.Views
 
         private void GoToMenu(object sender, EventArgs e)
         {
-            MainPage main = new MainPage();
-            Application.Current.MainPage = main;
+            if (listShowAll.IsVisible == false)
+            {
+                MainPage main = new MainPage();
+                Application.Current.MainPage = main;
+            }
+            if (listShowAll.IsVisible == true)
+            {
+                listview.IsVisible = true;
+                nameSearch.Text = string.Empty;
+                listview.ItemsSource = App.ApiServices.Documents;
+                listShowAll.IsVisible = false;
+                Results.IsVisible = true;
+                if (listview.ItemsSource != null)
+                {
+                    var result = App.ApiServices.Documents.Count();
+                    Results.Text = "Results: " + result.ToString();
+                }
+                
+            }
         }
+
+        private void LogOut(object sender, EventArgs e)
+        {
+            App.ApiServices.Logout();
+        }
+                
     }
 }
