@@ -4,12 +4,9 @@
              xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
              xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
              xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikBusyIndicator="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              x:Class="CSmobile.Views.Tickets">
-
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="BackButton" Icon="left_arrow.png" Order="Primary" Clicked="backEvent"/>
-    </ContentPage.ToolbarItems>-->
-
+    
     <ContentPage.Content>
         <ScrollView x:Name="scrollView">
             <StackLayout>
@@ -17,188 +14,143 @@
                     <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
                                 BackgroundColor="DarkGray" BorderRadius="13" 
                                 Image="left_arrow.png" HorizontalOptions="StartAndExpand"
-                                Margin="5,5,0,0" Clicked="GoToMenu"/>
+                                Margin="5,5,0,5" Clicked="GoToMenu"/>
 
                     <telerikInput:RadButton x:Name="CreateView" WidthRequest="60" HeightRequest="26"  
                                 BackgroundColor="Green" Image="plus.png" 
                                 BorderRadius="10" HorizontalOptions="CenterAndExpand"
-                                Margin="0,5,0,0" Clicked="CreateView_Clicked" />
+                                Margin="0,5,0,5" Clicked="CreateView_Clicked" />
 
                     <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
                                 BackgroundColor="Red" BorderRadius="13" 
                                 Image="log_out.png" HorizontalOptions="EndAndExpand"
-                                Margin="0,5,5,0" Clicked="LogOut"/>
+                                Margin="0,5,5,5" Clicked="LogOut"/>
                 </StackLayout>
 
-                <!--#region Create -->
+                <StackLayout IsVisible="False" x:Name="createLayout">
 
-                <StackLayout IsVisible="False" x:Name="createLayout">                   
+                    <Label Text="Create Ticket" TextColor="White" HorizontalOptions="CenterAndExpand"
+                           Margin="0, 5, 0, 0" x:Name="Label1" FontSize="22" />
 
-                    <Label Text="Create Ticket"
-                           HorizontalOptions="CenterAndExpand"
-                           Margin="0, 5, 0, 0" 
-                           x:Name="Label1"
-                           FontSize="22"/>
+                    <Label Text="Edit Ticket" TextColor="White" HorizontalOptions="CenterAndExpand"
+                           Margin="0, 5, 0, 0" x:Name="editLbl" FontSize="22" />
 
-                    <Label Text="Edit Ticket"
-                           HorizontalOptions="CenterAndExpand"
-                           Margin="0, 5, 0, 0" 
-                           x:Name="editLbl"
-                           FontSize="22"/>
+                    <Label x:Name="titleLabel" Margin="5,0,0,5" Text="Title" IsVisible="False"
+                           TextColor="White"/>
+                    <telerikInput:RadEntry x:Name="title" WatermarkText="Title" 
+                                           WatermarkTextColor="White" />
 
-                    <Label Text="Title"
-                           Margin="5, 0, 0, 0"/>
-                    <Entry x:Name="title" />
+                    <Label x:Name="descriptionLabel" Margin="5,0,0,5" Text="Description" 
+                           IsVisible="False" TextColor="White"/>
+                    <telerikInput:RadEntry x:Name="description" WatermarkText="Description" 
+                                           WatermarkTextColor="White" />
 
-                    <Label Text="Description"
-                           Margin="5, 0, 0, 0"/>
-                    <Entry x:Name="description" />
-
-                    <Label Text="Document"
-                           x:Name="docLbl"
-                           Margin="5, 0, 0, 0"/>
-                    <Button x:Name="document"
-                           Clicked="DocumentUpload"/>
-
-                    <Image x:Name="FileImage"
-                           WidthRequest="100"
-                           HeightRequest="100"/>
+                    <telerikInput:RadButton x:Name="document" Text="Document Upload" TextColor="White" 
+                                            Margin="5,5,5,5" HorizontalOptions="FillAndExpand" 
+                                            Clicked="DocumentUpload"/>
+                    
+                    <ScrollView Orientation="Horizontal">
+                        <StackLayout x:Name="FileImage" Orientation="Horizontal" />
+                    </ScrollView>
 
                 </StackLayout>
 
-                <!--#region Picker -->
-                <!--<Picker x:Name="picker" Title="Add Fields" SelectedIndexChanged="OnPickerSelectedIndexChanged">
-                    <Picker.Items>
-                        <x:String>Baboon</x:String>
-                        <x:String>Capuchin Monkey</x:String>
-                        <x:String>Blue Monkey</x:String>
-                        <x:String>Squirrel Monkey</x:String>
-                        <x:String>Golden Lion Tamarin</x:String>
-                        <x:String>Howler Monkey</x:String>
-                        <x:String>Japanese Macaque</x:String>
-                    </Picker.Items>
-                </Picker>-->
-                <!--#endregion-->
 
-                <Button IsVisible="False" x:Name="Create" Clicked="CreateTicket" 
-                        Text="Create"  VerticalOptions="StartAndExpand"                     
-                        Margin="0, 5, 0, 0"/>
-                <!--#endregion-->
-                <Button IsVisible="False" x:Name="Edit" Clicked="EditTicketSave" 
-                        Text="Edit"  VerticalOptions="StartAndExpand"                     
-                        Margin="0, 5, 0, 0"/>
 
-                <!--<Button x:Name="CreateView" Text="New Ticket" Clicked="CreateView_Clicked" 
-                        VerticalOptions="StartAndExpand"                         
-                        HeightRequest="40"/>-->
+                <telerikInput:RadButton IsVisible="False" x:Name="Create" Clicked="CreateTicket" 
+                        Text="Create"  VerticalOptions="StartAndExpand" TextColor="White"                     
+                        Margin="5, 5, 5, 0" BorderThickness="2" BorderColor="Orange" />
 
+                <telerikInput:RadButton IsVisible="False" x:Name="Edit" Clicked="EditTicketSave" 
+                        Text="Edit"  VerticalOptions="StartAndExpand" TextColor="White"                    
+                        Margin="5, 5, 5, 0" BorderThickness="2" BorderColor="Orange"/>
+
+                
 
                 <Label x:Name="lblticket" Text="Tickets"
-                Margin="0, 15, 0, 5" 
+                Margin="0, 15, 0, 5" TextColor="White"
                 FontSize="22" 
                 HorizontalOptions="CenterAndExpand" />
 
-                                    
-                    <telerikInput:RadEntry x:Name="Search" Margin="0,0,0,0" FontSize="15"
+
+                <telerikInput:RadEntry x:Name="Search" Margin="0,0,0,0" FontSize="15" WatermarkTextColor="White"
                                        HorizontalOptions="FillAndExpand" TextChanged="titleSearch_TextChanged"
                                        WatermarkText="Search"/>
-                
-                <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
-                <!--<ScrollView>-->
-                <!--<ListView x:Name="listview" RowHeight="170" ItemTapped="listview_ItemTapped">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Orientation="Vertical" VerticalOptions="Fill" HorizontalOptions="Fill">
-                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Ticket: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding title, StringFormat='Title: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding description, StringFormat='Description: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding ticketID, StringFormat='Ticket ID: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>-->
 
-                <telerikDataControls:RadListView x:Name="listview" ItemTapped="listview_ItemTapped">
-                <telerikDataControls:RadListView.ItemTemplate>
-                    <DataTemplate>
-                        <telerikListView:ListViewTemplateCell>
-                            <telerikListView:ListViewTemplateCell.View>
-                                <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
-                                        <Label FontSize="15" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Ticket: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding title, StringFormat='Title: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding description, StringFormat='Description: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding ticketID, StringFormat='Ticket ID: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
-                                    </StackLayout>
-                            </telerikListView:ListViewTemplateCell.View>
-                        </telerikListView:ListViewTemplateCell>
-                    </DataTemplate>
-                </telerikDataControls:RadListView.ItemTemplate>
-                <telerikDataControls:RadListView.GroupDescriptors>
-                    <telerikListView:PropertyGroupDescriptor PropertyName="title"/>
-                </telerikDataControls:RadListView.GroupDescriptors>
+                <Label x:Name="Results" TextColor="White" HorizontalOptions="CenterAndExpand"/>
+              
+                <telerikBusyIndicator:RadBusyIndicator x:Name="BusyIndicator" AnimationType="Animation8"
+                                       AnimationContentHeightRequest="40" IsVisible="False"
+                                       AnimationContentWidthRequest="40" AnimationContentColor="Orange"
+                                       IsBusy="True">                    
+                </telerikBusyIndicator:RadBusyIndicator>
+
+                <telerikDataControls:RadListView x:Name="listview" IsItemSwipeEnabled="True"
+                                                 ItemTapped="listview_ItemTapped" SelectionMode="None"
+                                                 SwipeOffset="0, 0, 70, 0" SwipeThreshold="5"
+                                                 ItemSwipeCompleted="editSwipe">
+                    <telerikDataControls:RadListView.ItemTemplate>
+                        <DataTemplate>
+                            <telerikListView:ListViewTemplateCell>
+                                <telerikListView:ListViewTemplateCell.View>
+                                    <Grid>
+                                        <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                            <Label FontSize="15" TextColor="White" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Ticket: {0}'}"/>
+                                            <Label FontSize="13" TextColor="White" Text="{Binding title, StringFormat='Title: {0}'}"/>
+                                            <Label FontSize="13" TextColor="White" Text="{Binding description, StringFormat='Description: {0}'}"/>
+                                            <Label FontSize="13" TextColor="White" Text="{Binding ticketID, StringFormat='Ticket ID: {0}'}"/>
+                                            <Label FontSize="13" TextColor="White" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </telerikListView:ListViewTemplateCell.View>
+                            </telerikListView:ListViewTemplateCell>
+                        </DataTemplate>
+                    </telerikDataControls:RadListView.ItemTemplate>
+                    <telerikDataControls:RadListView.GroupDescriptors>                        
+                        <telerikListView:PropertyGroupDescriptor PropertyName="title"/>
+                    </telerikDataControls:RadListView.GroupDescriptors>
+                    <telerikDataControls:RadListView.ItemSwipeContentTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0" Padding="0" HorizontalOptions="End" ColumnSpacing="0" RowSpacing="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button Margin="0" BackgroundColor="Orange" BorderRadius="0" TextColor="White" Text="Edit" 
+                                        WidthRequest="70" />
+                            </Grid>
+                        </DataTemplate>
+                    </telerikDataControls:RadListView.ItemSwipeContentTemplate>
                 </telerikDataControls:RadListView>
-
-                <!--<ListView x:Name="listShowAll" RowHeight="400" IsVisible="False" >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Orientation="Vertical" VerticalOptions="Fill" HorizontalOptions="Fill">
-                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Ticket: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding id, StringFormat='ID: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding assignedUserId, StringFormat='Assigned User: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding title, StringFormat='Title: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding description, StringFormat='Description: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding priority, StringFormat='Priority: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding priorityName, StringFormat='Priority Name: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding status, StringFormat='Status: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding statusName, StringFormat='Status Name: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding ticketID, StringFormat='Ticket ID: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding resume, StringFormat='Resume: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding estimatedDate, StringFormat='Estimated Date: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding changedOn, StringFormat='Last Change: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding estimatedOn, StringFormat='Estimated On: {0}'}"/>
-                                    <Button Text="Edit Ticket" Clicked="EditTicket" VerticalOptions="StartAndExpand" HeightRequest="40"/>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>-->
-
+              
                 <telerikDataControls:RadListView x:Name="listShowAll" IsVisible="False">
-                <telerikDataControls:RadListView.ItemTemplate>
-                    <DataTemplate>
-                        <telerikListView:ListViewTemplateCell>
-                            <telerikListView:ListViewTemplateCell.View>
-                                <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
-                                        <Label FontSize="15" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Ticket: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding id, StringFormat='ID: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding assignedUserId, StringFormat='Assigned User: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding title, StringFormat='Title: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding description, StringFormat='Description: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding priority, StringFormat='Priority: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding priorityName, StringFormat='Priority Name: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding status, StringFormat='Status: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding statusName, StringFormat='Status Name: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding ticketID, StringFormat='Ticket ID: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding resume, StringFormat='Resume: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding estimatedDate, StringFormat='Estimated Date: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding changedOn, StringFormat='Last Change: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding estimatedOn, StringFormat='Estimated On: {0}'}"/>
-                                        <Button Text="Edit Ticket" Clicked="EditTicket" VerticalOptions="StartAndExpand" HeightRequest="40"/>
+                    <telerikDataControls:RadListView.ItemTemplate>
+                        <DataTemplate>
+                            <telerikListView:ListViewTemplateCell>
+                                <telerikListView:ListViewTemplateCell.View>
+                                    <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                        <Label FontSize="15" TextColor="White" HorizontalOptions="CenterAndExpand" Text="{Binding title, StringFormat='Ticket: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding id, StringFormat='ID: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding assignedUserId, StringFormat='Assigned User: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding title, StringFormat='Title: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding description, StringFormat='Description: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding priority, StringFormat='Priority: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding priorityName, StringFormat='Priority Name: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding status, StringFormat='Status: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding statusName, StringFormat='Status Name: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding ticketID, StringFormat='Ticket ID: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding resume, StringFormat='Resume: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding estimatedDate, StringFormat='Estimated Date: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding changedOn, StringFormat='Last Change: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding estimatedOn, StringFormat='Estimated On: {0}'}"/>
+                                        <Button Text="Edit Ticket" TextColor="White" Clicked="EditTicket" VerticalOptions="StartAndExpand" HeightRequest="40"/>
                                     </StackLayout>
-                            </telerikListView:ListViewTemplateCell.View>
-                        </telerikListView:ListViewTemplateCell>
-                    </DataTemplate>
-                </telerikDataControls:RadListView.ItemTemplate>
+                                </telerikListView:ListViewTemplateCell.View>
+                            </telerikListView:ListViewTemplateCell>
+                        </DataTemplate>
+                    </telerikDataControls:RadListView.ItemTemplate>
                 </telerikDataControls:RadListView>
-
-                <!--</ScrollView>-->
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

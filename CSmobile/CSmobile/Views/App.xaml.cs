@@ -66,9 +66,10 @@ namespace CSmobile
 
         private static void Logged()
         {
-            if (Application.Current.Properties.ContainsKey("token"))
+            if (Application.Current.Properties.ContainsKey("token") && Application.Current.Properties.ContainsKey("serverURL"))
             {
                 App.ApiServices.tokenSave = Application.Current.Properties["token"] as string;
+                App.ApiServices.serverURL = Application.Current.Properties["serverURL"] as string;
                 App.ApiServices.loginSkip = true;
                 if (App.ApiServices.tokenSave != string.Empty)
                 {

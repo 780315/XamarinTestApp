@@ -27,6 +27,7 @@ namespace CSmobile.Views
             string searchFilter = firstname.Text;
             if (searchFilter.Length > 3)
             {
+                BusyIndicator.IsVisible = true;
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
                 await App.ApiServices.GetContacts(searchFilter);
@@ -50,6 +51,7 @@ namespace CSmobile.Views
                 listShowAll.ItemsSource = null;
                 Results.Text = "";
             }
+            BusyIndicator.IsVisible = false;
         }
                
         private void CountResults()
@@ -83,7 +85,6 @@ namespace CSmobile.Views
                     Results.Text = "";
                 }
             }
-
         }
 
         private void GoToMenu(object sender, EventArgs e)

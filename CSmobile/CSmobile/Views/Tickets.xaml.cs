@@ -19,9 +19,7 @@ namespace CSmobile.Views
     public partial class Tickets : ContentPage
     {
         public int ticketId { get; set; }
-        public List<Ticket> list { get; set; }
-        string ticketTitle = "?Title=";
-        string ticketDescription = "?Description=";
+        public List<Ticket> list { get; set; }      
         private MediaFile _mediaFile;
         public Ticket ticket { get; set; }
 
@@ -31,6 +29,7 @@ namespace CSmobile.Views
         public long img { get; set; }
         public string imgName { get; set; }
         public string path { get; set; }
+        public Image image = new Image();
 
         public Tickets()
         {
@@ -43,7 +42,10 @@ namespace CSmobile.Views
             await App.ApiServices.PostTickets(ticket);
             if (App.ApiServices.ticketPost == true)
             {
-                await App.ApiServices.DocumentCommit(path, imgName, App.ApiServices.id.ToString(), "Ticket");
+                if (FileImage.Children.Contains(image) == true)
+                {
+                    await App.ApiServices.DocumentCommit(path, imgName, App.ApiServices.id.ToString(), "Ticket");
+                }
                 await DisplayAlert("Ticket", "Ticket Created", "Ok");
                 ClearFields();
             }
@@ -60,6 +62,10 @@ namespace CSmobile.Views
             await App.ApiServices.PutTickets(ticketVal);
             if (App.ApiServices.ticketPut == true)
             {
+                if (FileImage.Children.Contains(image) == true)
+                {
+                    await App.ApiServices.DocumentCommit(path, imgName, ticket.id.ToString(), "Ticket");
+                }
                 await DisplayAlert("Ticket", "Ticket Edited", "Ok");
             }
             else
@@ -75,9 +81,8 @@ namespace CSmobile.Views
         private void ClearFields()
         {
             title.Text = string.Empty;
-            description.Text = string.Empty;
-            document.Text = string.Empty;
-            FileImage.Source = null;
+            description.Text = string.Empty;           
+            FileImage.Children.Clear();
         }
 
         private async void DocumentUpload(object sender, EventArgs e)// method working ?
@@ -95,11 +100,14 @@ namespace CSmobile.Views
                 return;
             }
 
-            FileImage.Source = ImageSource.FromStream(() =>
+            var source = ImageSource.FromStream(() =>
             {
                 return _mediaFile.GetStream();
             });
-
+            
+            image = new Image { Source = source, WidthRequest = 50, HeightRequest = 50};
+            FileImage.Children.Add(image);
+            
             using (var memoryStream = new MemoryStream())
             {
                 _mediaFile.GetStream().CopyTo(memoryStream);
@@ -128,12 +136,13 @@ namespace CSmobile.Views
             string searchFilter = Search.Text;
             if (searchFilter.Length >= 3)
             {
+                BusyIndicator.IsVisible = true;
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
                 await App.ApiServices.GetTickets(searchFilter);
                 list = App.ApiServices.Tickets;
                 if (list.Count != 0)
-                {
+                {                    
                     listview.ItemsSource = list;
                     listview.IsVisible = false;
                     listview.IsVisible = true;
@@ -141,17 +150,18 @@ namespace CSmobile.Views
                     CountResults();
                 }
                 else
-                {
+                {                    
                     listview.ItemsSource = null;
-                }
-            }           
+                }                
+            }
             if (string.IsNullOrEmpty(searchFilter))
             {
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
                 Results.Text = "";
             }
-        }      
+            BusyIndicator.IsVisible = false;
+        }
 
         private void CreateView_Clicked(object sender, EventArgs e)
         {
@@ -166,8 +176,11 @@ namespace CSmobile.Views
             Create.IsVisible = true;
             Label1.IsVisible = true;
             editLbl.IsVisible = false;
-            docLbl.IsVisible = true;
-            
+            ClearFields();
+            titleLabel.Text = string.Empty;
+            descriptionLabel.Text = string.Empty;
+            //docLbl.IsVisible = true;
+
         }
 
         private void CountResults()
@@ -237,15 +250,15 @@ namespace CSmobile.Views
             listShowAll.IsVisible = false;
             Create.IsVisible = false;
             Edit.IsVisible = true;
-            scrollView.ScrollToAsync(createLayout, ScrollToPosition.Start, false);
+            scrollView.ScrollToAsync(scrollView, ScrollToPosition.Start, false);
             Label1.IsVisible = false;
             editLbl.IsVisible = true;
             editLbl.Focus();
-            document.IsVisible = false;
-            FileImage.IsVisible = false;
+            document.IsVisible = true;
+            FileImage.IsVisible = true;
             Search.IsVisible = false;
-            docLbl.IsVisible = false;
-            
+            //docLbl.IsVisible = false;
+
         }
 
         private void GoToMenu(object sender, EventArgs e)
@@ -259,7 +272,7 @@ namespace CSmobile.Views
             {
                 listview.IsVisible = true;
                 Search.Text = string.Empty;
-                listview.ItemsSource = App.ApiServices.Tickets;                
+                listview.ItemsSource = App.ApiServices.Tickets;
                 listShowAll.IsVisible = false;
                 Results.IsVisible = true;
                 if (listview.ItemsSource != null)
@@ -267,10 +280,11 @@ namespace CSmobile.Views
                     var result = App.ApiServices.Tickets.Count();
                     Results.Text = "Results: " + result.ToString();
                 }
-            }            
+            }
             if (createLayout.IsVisible == true)
             {
-                HideCreateView();                
+                HideCreateView();
+                Search.Text = string.Empty;
                 Search.IsVisible = true;
             }
         }
@@ -280,5 +294,31 @@ namespace CSmobile.Views
             App.ApiServices.Logout();
         }
 
+        private void editSwipe(object sender, ItemSwipeCompletedEventArgs e)
+        {            
+            if (e.Offset <= -70)
+            {
+                var value = e.Item;
+                ticket = (Ticket)value;
+                title.Text = ticket.title;
+                description.Text = ticket.description;
+                ShowCreateView();
+                listShowAll.ItemsSource = null;
+                listShowAll.IsVisible = false;
+                Create.IsVisible = false;
+                Edit.IsVisible = true;
+                scrollView.ScrollToAsync(scrollView, ScrollToPosition.Start, false);
+                Label1.IsVisible = false;
+                editLbl.IsVisible = true;
+                editLbl.Focus();
+                document.IsVisible = true;
+                FileImage.IsVisible = true;
+                Search.IsVisible = false;
+                titleLabel.IsVisible = true;
+                descriptionLabel.IsVisible = true;
+                //docLbl.IsVisible = false;
+            }
+            listview.EndItemSwipe();
+        }
     }
 }

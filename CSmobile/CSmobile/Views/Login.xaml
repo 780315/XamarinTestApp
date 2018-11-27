@@ -7,47 +7,41 @@
 
     <ContentPage.Content>
         <StackLayout Spacing="0" Padding="0">
-            <Image Source="logo.png"
-                   Margin="0, 20, 0, 0"
+            <Image Source="logo.png" Scale="1.2"
+                   Margin="0, 20, 0, 0" IsOpaque="False"
                    WidthRequest="40"
                    HorizontalOptions="Center"/>
             
-            <Label Text="Welcome"
+            <Label Text="Welcome" TextColor="White"
                    HorizontalOptions="CenterAndExpand"
-                   Margin="0, 5, 0, 0" 
+                   Margin="0, 10, 0, 0" 
                    FontSize="26"/>
-            
-            <Label Text="Please insert your name and password"
+
+            <Label Text="Please insert your name and password" TextColor="White"
                    HorizontalOptions="CenterAndExpand"
-                   Margin="0, 0, 0, 0" 
+                   Margin="0, 5, 0, 10" 
                    FontSize="10"/>
-            
-            <!--<Label Text="Username"                    
-                   Margin="5, 15, 0, 0"/>
-            <Entry x:Name="username" />-->
 
-            <telerikInput:RadEntry x:Name="username" WatermarkText="Enter username" 
-                                   FontSize="15" Margin="0, 15, 0, 0"/>
-
-            <!--<Label Text="Password"
-                   Margin="5, 0, 0, 0"/>
-            <Entry x:Name="password" 
-                   IsPassword="true" />-->
-
+            <telerikInput:RadEntry x:Name="username" WatermarkText="Enter username"
+                                   TextChanged="getServers" WatermarkTextColor="White" 
+                                   FontSize="15" Margin="0, 15, 0, 5"/>
+          
             <telerikInput:RadEntry x:Name="password" WatermarkText="Enter password" FontSize="15"
-                                   IsPassword="True"  Margin="0, 15, 0, 0" />            
+                                   WatermarkTextColor="White" IsPassword="True"
+                                   Margin="0, 15, 0, 5" />
             
-            <!--<Button x:Name="LogIn" Clicked="LogInProcedure" 
-                    Text="Login"  VerticalOptions="StartAndExpand"                     
-                    Margin="0, 5, 0, 0"/>-->
+            <Picker x:Name="serverList" Title="Server: Select Server" SelectedIndexChanged="selectedServer" 
+                    ItemDisplayBinding="{Binding clientName, StringFormat='Server: {0}'}" SelectedItem="{Binding backEndUrl}"
+                    HorizontalOptions="FillAndExpand" TextColor="White" Margin="0,15,0,5"/>
 
-            <telerikInput:RadButton x:Name="LogIn" Text="Login" BorderRadius="5" Margin="5, 10, 5, 0" 
-                        VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="40"  
-                        WidthRequest="160" FontSize="15" Clicked="LogInProcedure"/>
+            <telerikInput:RadButton x:Name="LogIn" Text="Login" BorderThickness="2" 
+                                    Margin="5, 25, 5, 0" VerticalOptions="Center" TextColor="White"
+                                    HorizontalOptions="Fill" HeightRequest="40"
+                                    BorderColor="Orange" FontSize="15" Clicked="LogInProcedure"/>
 
-            <Label Text="Forgot Password"
+            <!--<Label Text="Forgot Password"
                    Margin="5, 10, 0, 150"
-                   x:Name="Lbl_Click"/>
+                   x:Name="Lbl_Click"/>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -67,6 +67,7 @@ namespace CSmobile.Views
         private void CreateView_Clicked(object sender, EventArgs e)
         {
             ShowCreateView();
+            ClearFields();
         }
         public void ShowCreateView()
         {
@@ -144,7 +145,7 @@ namespace CSmobile.Views
             Label1.IsVisible = false;
             editLbl.IsVisible = true;
             editLbl.Focus();
-            scrollView.ScrollToAsync(createLayout, ScrollToPosition.Start, false);
+            scrollView.ScrollToAsync(scrollView, ScrollToPosition.Start, false);
         }
 
         private void GoToMenu(object sender, EventArgs e)
@@ -166,10 +167,11 @@ namespace CSmobile.Views
                     var result = App.ApiServices.Tasks.Count();
                     Results.Text = "Results: " + result.ToString();
                 }
-            }            
+            }
             if (createLayout.IsVisible == true)
             {
                 HideCreateView();
+                Search.Text = string.Empty;
                 Search.IsVisible = true;
             }
         }
@@ -180,6 +182,7 @@ namespace CSmobile.Views
             string searchFilter = Search.Text;
             if (searchFilter.Length > 0)
             {
+                BusyIndicator.IsVisible = true;
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
                 await App.ApiServices.GetTask(searchFilter);
@@ -196,6 +199,7 @@ namespace CSmobile.Views
                 {
                     listview.ItemsSource = null;
                 }
+                
             }
             if (string.IsNullOrEmpty(searchFilter))
             {
@@ -203,11 +207,34 @@ namespace CSmobile.Views
                 listShowAll.ItemsSource = null;
                 Results.Text = "";
             }
+            BusyIndicator.IsVisible = false;
         }
 
         private void LogOut(object sender, EventArgs e)
         {
             App.ApiServices.Logout();
+        }
+
+        private void editSwipe(object sender, ItemSwipeCompletedEventArgs e)
+        {           
+            if (e.Offset <= -70)
+            {
+                var value = e.Item;
+                tasks = (Models.Tasks)value;
+                title.Text = tasks.title;
+                description.Text = tasks.description;
+                datePicker.Date = Convert.ToDateTime(tasks.createdOn);
+                ShowCreateView();
+                listShowAll.ItemsSource = null;
+                listShowAll.IsVisible = false;
+                Create.IsVisible = false;
+                Edit.IsVisible = true;
+                Label1.IsVisible = false;
+                editLbl.IsVisible = true;
+                editLbl.Focus();
+                scrollView.ScrollToAsync(scrollView, ScrollToPosition.Start, false);
+            }
+            listview.EndItemSwipe();
         }
     }
 }

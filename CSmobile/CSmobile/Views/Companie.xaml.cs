@@ -27,6 +27,7 @@ namespace CSmobile.Views
             string searchFilter = nameSearch.Text;
             if (searchFilter.Length > 0)
             {
+                BusyIndicator.IsVisible = true;
                 listview.ItemsSource = null;
                 listShowAll.ItemsSource = null;
                 await App.ApiServices.GetCompanies(searchFilter);
@@ -50,6 +51,7 @@ namespace CSmobile.Views
                 listShowAll.ItemsSource = null;
                 Results.Text = "";
             }
+            BusyIndicator.IsVisible = false;
         }
 
         private void CountResults()

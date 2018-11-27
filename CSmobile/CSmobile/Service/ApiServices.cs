@@ -37,11 +37,13 @@ namespace CSmobile.Service
         public IList<Contacts> Contacts { get; set; }
         public IList<Companies> Companies { get; set; }
         public IList<Document> Documents { get; set; }
+        public List<ServerList> Servers { get; set; }
         public object docInfo { get; set; }
         public int id { get; set; }
         public bool taskPut { get; set; }
         public bool ticketPut { get; set; }
-        public string doc { get; set; }
+        public List<string> doc = new List<string>();
+        public string serverURL { get; set; }
 
         private JsonSerializerSettings settings = new JsonSerializerSettings
         {
@@ -49,11 +51,11 @@ namespace CSmobile.Service
             MissingMemberHandling = MissingMemberHandling.Ignore
         }; // settings to deserialize Json and ignore null values        
 
-        public async Task LoginAsync(User user) // Login
+        public async Task LoginAsync(string serverUrl, User user) // Login
         {
-            var uri = new Uri(string.Format(Constants.LoginUrl, string.Empty));
+            var uri = new Uri(string.Format(serverUrl + Constants.LoginUrl, string.Empty));
             client = new HttpClient();
-            var userInfo = new {username = user.username, password = user.password};
+            var userInfo = new { username = user.username, password = user.password };
             var json = JsonConvert.SerializeObject(userInfo);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             HttpResponseMessage response = null;
@@ -73,18 +75,18 @@ namespace CSmobile.Service
         {
             string requestBody = await response.Content.ReadAsStringAsync(); //server response
 
-            var bodyResponse = requestBody.Split(new string[] {"}{"}, StringSplitOptions.RemoveEmptyEntries)
+            var bodyResponse = requestBody.Split(new string[] { "}{" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim('{', '}'))
                 .Select(s => s.Split(','))
                 .ToDictionary(s => s[0], s => s[0]);
 
             var tokenValue = JsonConvert.SerializeObject(bodyResponse.Values);
-            var split2 = tokenValue.Split(new string[] {"}{"}, StringSplitOptions.RemoveEmptyEntries)
+            var split2 = tokenValue.Split(new string[] { "}{" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Split(':'))
                 .ToDictionary(s => s[0], s => s[1]);
 
             string tokenString = JsonConvert.SerializeObject(split2.Values);
-            char[] charsToTrim = {'[', '"', ']', '\"', '/'};
+            char[] charsToTrim = { '[', '"', ']', '\"', '/' };
 
             token = tokenString.Trim(charsToTrim).Replace(@"\", string.Empty).Trim('"');
             Application.Current.Properties["token"] = token;
@@ -93,7 +95,7 @@ namespace CSmobile.Service
 
         public async Task GetTickets(string search) // Ticket search
         {
-            var uri = new Uri(string.Format(Constants.TicketsUrl + search));
+            var uri = new Uri(string.Format(serverURL + Constants.TicketsUrl + search));
             HttpResponseMessage response = null;
             client = new HttpClient();
             LoginSkip(client);
@@ -112,7 +114,7 @@ namespace CSmobile.Service
 
         public async Task PostTickets(Ticket ticket) // Ticket creation
         {
-            var uri = new Uri(string.Format(Constants.TicketsUrl, string.Empty));
+            var uri = new Uri(string.Format(serverURL + Constants.TicketsUrl, string.Empty));
             client = new HttpClient();
             var ticketInfo = new
             {
@@ -151,7 +153,7 @@ namespace CSmobile.Service
 
         public async Task PutTickets(Ticket ticket) // Ticket creation
         {
-            var uri = new Uri(string.Format(Constants.TicketsUrl, string.Empty));
+            var uri = new Uri(string.Format(serverURL + Constants.TicketsUrl, string.Empty));
             client = new HttpClient();
             var ticketInfo = new
             {
@@ -190,7 +192,7 @@ namespace CSmobile.Service
 
         public async Task GetContacts(string search) // new search
         {
-            var uri = new Uri(string.Format("http://contentsharewebapi.soltystudio.com/api/v1/Search?EntityType=contactmodel&Query=" + search + "&Size=100"));
+            var uri = new Uri(string.Format(serverURL + "/api/v1/Search?EntityType=contactmodel&Query=" + search + "&Size=100"));
             HttpResponseMessage response = null;
             client = new HttpClient();
             LoginSkip(client);
@@ -209,7 +211,7 @@ namespace CSmobile.Service
 
         public async Task GetCompanies(string search) // new search
         {
-            var uri = new Uri(string.Format("http://contentsharewebapi.soltystudio.com/api/v1/Search?EntityType=companymodel&Query=" + search + "&Size=100"));
+            var uri = new Uri(string.Format(serverURL + "/api/v1/Search?EntityType=companymodel&Query=" + search + "&Size=100"));
             HttpResponseMessage response = null;
             client = new HttpClient();
             LoginSkip(client);
@@ -228,7 +230,7 @@ namespace CSmobile.Service
 
         public async Task GetDocuments(string search) // new search
         {
-            var uri = new Uri(string.Format("http://contentsharewebapi.soltystudio.com/api/v1/Search?EntityType=documentmodel&Query=" + search + "&Size=100")); // change url in constants
+            var uri = new Uri(string.Format(serverURL + "/api/v1/Search?EntityType=documentmodel&Query=" + search + "&Size=100")); // change url in constants
             HttpResponseMessage response = null;
             client = new HttpClient();
             LoginSkip(client);
@@ -247,7 +249,7 @@ namespace CSmobile.Service
 
         public async Task GetTask(string search)// new search
         {
-            var uri = new Uri(string.Format("http://contentsharewebapi.soltystudio.com/api/v1/Search?EntityType=taskmodel&Query=" + search + "&Size=100"));
+            var uri = new Uri(string.Format(serverURL + "/api/v1/Search?EntityType=taskmodel&Query=" + search + "&Size=100"));
             HttpResponseMessage response = null;
             client = new HttpClient();
             LoginSkip(client);
@@ -255,7 +257,7 @@ namespace CSmobile.Service
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Tasks = JsonConvert.DeserializeObject<Items>(content, settings).items;                             
+                Tasks = JsonConvert.DeserializeObject<Items>(content, settings).items;
             }
             else
             {
@@ -266,7 +268,7 @@ namespace CSmobile.Service
 
         public async Task PutTask(Tasks tasks)
         {
-            var uri = new Uri(string.Format(Constants.TasksUrl, string.Empty));
+            var uri = new Uri(string.Format(serverURL + Constants.TasksUrl, string.Empty));
             client = new HttpClient();
             var tasksInfo = new
             {
@@ -308,7 +310,7 @@ namespace CSmobile.Service
 
         public async Task PostTasks(Tasks tasks) // Tasks Creation
         {
-            var uri = new Uri(string.Format(Constants.TasksUrl, string.Empty));
+            var uri = new Uri(string.Format(serverURL + Constants.TasksUrl, string.Empty));
             client = new HttpClient();
             var tasksInfo = new
             {
@@ -364,7 +366,7 @@ namespace CSmobile.Service
 
         private async void RedirectLogin(HttpResponseMessage response)
         {
-            int code = (int) response.StatusCode;
+            int code = (int)response.StatusCode;
             if (code == 401)
             {
                 await App.Current.MainPage.DisplayAlert("Login", "Authentication Failed, Login Again", "Ok");
@@ -381,22 +383,18 @@ namespace CSmobile.Service
         public void Logout() // Logout
         {
             Login login = new Login();
-            if (Application.Current.Properties.ContainsKey("token"))
-            {
-                Application.Current.Properties["token"] = string.Empty;
-                Application.Current.MainPage = login;
-            }
-
+            Application.Current.Properties["token"] = string.Empty;
+            Application.Current.Properties["serverURL"] = string.Empty;
             Application.Current.MainPage = login;
         }
-                
+
         public async Task DocumentInit(string path, string fileName, string id, string entityType)// working
         {
             HttpClient client = new HttpClient();
 
             LoginSkip(client);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/bson"));
-                        
+
             var stream = System.IO.File.ReadAllBytes(path);
 
             var content = new ByteArrayContent(stream);
@@ -413,13 +411,13 @@ namespace CSmobile.Service
             {
                 Method = HttpMethod.Post,
                 Content = form,
-                RequestUri = new Uri(Constants.DocumentInit)
+                RequestUri = new Uri(serverURL + Constants.DocumentInit)
             });
-           
+
             var docval = await response.Content.ReadAsStringAsync(); //remove chars "\"  
             docval = docval.Substring(12);
             docval = docval.Remove(docval.Length - 1);
-            doc = docval;           
+            doc.Add(docval);
         }
 
         public async Task DocumentCommit(string path, string fileName, string id, string entityType) // working
@@ -437,36 +435,54 @@ namespace CSmobile.Service
             MultipartFormDataContent form = new MultipartFormDataContent();
             //form.Add(content, "document", doc);
 
-            form.Add(new StringContent(entityType), "entityType");
-            form.Add(new StringContent(id), "entityId");
-            form.Add(new StringContent(doc), "document");
-
-            var response = await client.SendAsync(new HttpRequestMessage
+            foreach (var item in doc)
             {
-                Method = HttpMethod.Post,
-                Content = form,
-                RequestUri = new Uri(Constants.DocumentCommit)
-            });
-            
+                string documents = item.ToString();
+                form.Add(new StringContent(entityType), "entityType");
+                form.Add(new StringContent(id), "entityId");
+                form.Add(new StringContent(documents), "document");
+
+                var response = await client.SendAsync(new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    Content = form,
+                    RequestUri = new Uri(serverURL + Constants.DocumentCommit)
+                });
+                form = new MultipartFormDataContent();
+            }
+            doc.Clear();
         }
 
         private async void GetId(HttpResponseMessage response) //working
         {
             string request = await response.Content.ReadAsStringAsync();
-            var bodyResponse = request.Split(new string[] {"}{"}, StringSplitOptions.RemoveEmptyEntries)
+            var bodyResponse = request.Split(new string[] { "}{" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim('{', '}'))
                 .Select(s => s.Split(','))
                 .ToDictionary(s => s[0], s => s[0]);
 
             var requestValue = JsonConvert.SerializeObject(bodyResponse.Values);
-            var split2 = requestValue.Split(new string[] {"}{"}, StringSplitOptions.RemoveEmptyEntries)
+            var split2 = requestValue.Split(new string[] { "}{" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Split(':'))
                 .ToDictionary(s => s[0], s => s[1]);
 
             string idValue = JsonConvert.SerializeObject(split2.Values);
-            char[] charsToTrim = {'[', '"', ']', '\"', '/'};
+            char[] charsToTrim = { '[', '"', ']', '\"', '/' };
 
             id = Convert.ToInt32(idValue.Trim(charsToTrim).Replace(@"\", string.Empty).Trim('"'));
+        }
+
+        public async Task GetServers(string email)//get server list
+        {
+            var uri = new Uri(string.Format("http://contentsharewebmanagement.soltystudio.com/api/v1/Security/check?email=" + email));
+            HttpResponseMessage response = null;
+            client = new HttpClient();
+            response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                Servers = JsonConvert.DeserializeObject<List<ServerList>>(content, settings);
+            }
         }
     }
 }

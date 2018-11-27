@@ -20,9 +20,9 @@ namespace CSmobile
         private void Tickets(object sender, EventArgs e)
         {
             Tickets tickets = new Tickets();
-            Application.Current.MainPage = tickets;
+            Application.Current.MainPage = tickets;            
         }
-
+        
         private void Contacts(object sender, EventArgs e)
         {
             Contacts contactsPage = new Contacts();

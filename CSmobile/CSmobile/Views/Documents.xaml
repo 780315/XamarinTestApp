@@ -4,6 +4,7 @@
              xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
              xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
              xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikBusyIndicator="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              x:Class="CSmobile.Views.Documents">
     <ContentPage.Content>
         <ScrollView>
@@ -12,40 +13,31 @@
                     <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
                                 BackgroundColor="DarkGray" BorderRadius="13" 
                                 Image="left_arrow.png" HorizontalOptions="StartAndExpand"
-                                Margin="5,5,0,0" Clicked="GoToMenu"/>
+                                Margin="5,5,0,5" Clicked="GoToMenu"/>
 
                     <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
                                 BackgroundColor="Red" BorderRadius="13" 
                                 Image="log_out.png" HorizontalOptions="EndAndExpand"
-                                Margin="0,5,5,0" Clicked="LogOut"/>
+                                Margin="0,5,5,5" Clicked="LogOut"/>
                 </StackLayout>
-                <Label Text="Documents"
+                <Label Text="Documents" TextColor="White"
                 Margin="0, 15, 0, 5" 
                 FontSize="22" 
                 HorizontalOptions="CenterAndExpand" />
 
-                <telerikInput:RadEntry x:Name="nameSearch" Margin="0,0,0,0" FontSize="15"
+                <telerikInput:RadEntry x:Name="nameSearch" Margin="0,0,0,0" FontSize="15" WatermarkTextColor="White"
                                    HorizontalOptions="FillAndExpand" WatermarkText="Search" 
                                    TextChanged="nameSearch_TextChanged"/>
 
-                
-                <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
+
+                <Label x:Name="Results" TextColor="White" HorizontalOptions="CenterAndExpand"/>
                 <!--<ScrollView>-->
-                <!--<ListView x:Name="listview" RowHeight="140" ItemTapped="listview_ItemTapped">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Orientation="Vertical" VerticalOptions="Fill" HorizontalOptions="Fill">
-                                    <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding entityID, StringFormat='Entity ID: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding entityType, StringFormat='Entity Type: {0}'}"/>
-                                    <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>-->
+
+                <telerikBusyIndicator:RadBusyIndicator x:Name="BusyIndicator" AnimationType="Animation8"
+                                       AnimationContentHeightRequest="40" IsVisible="False"
+                                       AnimationContentWidthRequest="40" AnimationContentColor="Orange"
+                                       IsBusy="True">
+                </telerikBusyIndicator:RadBusyIndicator>
 
                 <telerikDataControls:RadListView x:Name="listview" ItemTapped="listview_ItemTapped">
                 <telerikDataControls:RadListView.ItemTemplate>
@@ -53,11 +45,11 @@
                         <telerikListView:ListViewTemplateCell>
                             <telerikListView:ListViewTemplateCell.View>
                                 <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
-                                        <Label FontSize="15" HorizontalOptions="CenterAndExpand" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding entityID, StringFormat='Entity ID: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding entityType, StringFormat='Entity Type: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                        <Label FontSize="15" TextColor="White" HorizontalOptions="CenterAndExpand" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding entityID, StringFormat='Entity ID: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding entityType, StringFormat='Entity Type: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
                                     </StackLayout>
                             </telerikListView:ListViewTemplateCell.View>
                         </telerikListView:ListViewTemplateCell>
@@ -95,16 +87,16 @@
                         <telerikListView:ListViewTemplateCell>
                             <telerikListView:ListViewTemplateCell.View>
                                 <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
-                                        <Label FontSize="15" HorizontalOptions="CenterAndExpand" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding id, StringFormat='Document ID: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding entityID, StringFormat='Entity ID: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding entityType, StringFormat='Entity Type: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding documentNumber, StringFormat='Document Number: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding description, StringFormat='Description: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding size, StringFormat='Size: {0}'}"/>
-                                        <Label FontSize="13" Text="{Binding type, StringFormat='Type: {0}'}"/>
+                                        <Label FontSize="15" TextColor="White" HorizontalOptions="CenterAndExpand" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding id, StringFormat='Document ID: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding entityID, StringFormat='Entity ID: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding entityType, StringFormat='Entity Type: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding documentName, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding documentNumber, StringFormat='Document Number: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding description, StringFormat='Description: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding size, StringFormat='Size: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding type, StringFormat='Type: {0}'}"/>
                                     </StackLayout>
                             </telerikListView:ListViewTemplateCell.View>
                         </telerikListView:ListViewTemplateCell>

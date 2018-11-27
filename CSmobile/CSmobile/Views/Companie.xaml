@@ -4,130 +4,93 @@
              xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
              xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
              xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              x:Class="CSmobile.Views.Companie">
     <ContentPage.Content>
         <ScrollView>
-        <StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
+            <StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
                                 BackgroundColor="DarkGray" BorderRadius="13" 
                                 Image="left_arrow.png" HorizontalOptions="StartAndExpand"
-                                Margin="5,5,0,0" Clicked="GoToMenu"/>
+                                Margin="5,5,0,5" Clicked="GoToMenu"/>
 
-                <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
+                    <telerikInput:RadButton WidthRequest="26" HeightRequest="26"  
                                 BackgroundColor="Red" BorderRadius="13" 
                                 Image="log_out.png" HorizontalOptions="EndAndExpand"
-                                Margin="0,5,5,0" Clicked="LogOut"/>
-            </StackLayout>
-            <Label Text="Companies"
-                Margin="0, 15, 0, 5" 
+                                Margin="0,5,5,5" Clicked="LogOut"/>
+                </StackLayout>
+                <Label Text="Companies"
+                Margin="0, 15, 0, 5" TextColor="White"
                 FontSize="22" 
                 HorizontalOptions="CenterAndExpand" />
 
 
-            <telerikInput:RadEntry x:Name="nameSearch" Margin="0,0,0,0" FontSize="15"
+                <telerikInput:RadEntry x:Name="nameSearch" Margin="0,0,0,0" FontSize="15" WatermarkTextColor="White"
                                    HorizontalOptions="FillAndExpand" WatermarkText="Search" 
                                    TextChanged="nameSearch_TextChanged"/>
 
-            <Label x:Name="Results" HorizontalOptions="CenterAndExpand"/>
+                <Label x:Name="Results" TextColor="White" HorizontalOptions="CenterAndExpand"/>
 
-            <!--<ListView x:Name="listview" RowHeight="140" ItemTapped="listview_ItemTapped">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Vertical" HorizontalOptions="Fill" VerticalOptions="Fill">
-                                <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding name, StringFormat='Companie: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding code, StringFormat='Code: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding name, StringFormat='Name: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding telephone, StringFormat='Telephone: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding website, StringFormat='Website: {0}'}"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
+                <telerikPrimitives:RadBusyIndicator x:Name="BusyIndicator" AnimationType="Animation8"
+                                       AnimationContentHeightRequest="40" IsVisible="False"
+                                       AnimationContentWidthRequest="40" AnimationContentColor="Orange"
+                                       IsBusy="True">
+                </telerikPrimitives:RadBusyIndicator>
 
-            <telerikDataControls:RadListView x:Name="listview" ItemTapped="listview_ItemTapped">
-            <telerikDataControls:RadListView.ItemTemplate>
-                <DataTemplate>
-                    <telerikListView:ListViewTemplateCell>
-                        <telerikListView:ListViewTemplateCell.View>
-                            <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
-                                    <Label FontSize="15" HorizontalOptions="CenterAndExpand" Text="{Binding name, StringFormat='Companie: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding code, StringFormat='Code: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding name, StringFormat='Name: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding telephone, StringFormat='Telephone: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding website, StringFormat='Website: {0}'}"/>
-                                </StackLayout>
-                        </telerikListView:ListViewTemplateCell.View>
-                    </telerikListView:ListViewTemplateCell>
-                </DataTemplate>
-            </telerikDataControls:RadListView.ItemTemplate>
-            <telerikDataControls:RadListView.GroupDescriptors>
-                <telerikListView:PropertyGroupDescriptor PropertyName="name"/>
-            </telerikDataControls:RadListView.GroupDescriptors>
-            </telerikDataControls:RadListView>
+                <telerikDataControls:RadListView x:Name="listview" ItemTapped="listview_ItemTapped">
+                    <telerikDataControls:RadListView.ItemTemplate>
+                        <DataTemplate>
+                            <telerikListView:ListViewTemplateCell>
+                                <telerikListView:ListViewTemplateCell.View>
+                                    <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                        <Label FontSize="15" TextColor="White" HorizontalOptions="CenterAndExpand" Text="{Binding name, StringFormat='Companie: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding code, StringFormat='Code: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding name, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding telephone, StringFormat='Telephone: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding website, StringFormat='Website: {0}'}"/>
+                                    </StackLayout>
+                                </telerikListView:ListViewTemplateCell.View>
+                            </telerikListView:ListViewTemplateCell>
+                        </DataTemplate>
+                    </telerikDataControls:RadListView.ItemTemplate>
+                    <telerikDataControls:RadListView.GroupDescriptors>
+                        <telerikListView:PropertyGroupDescriptor PropertyName="name"/>
+                    </telerikDataControls:RadListView.GroupDescriptors>
+                </telerikDataControls:RadListView>
 
-            <!--<ListView x:Name="listShowAll" RowHeight="470" IsVisible="False">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Vertical" HorizontalOptions="Fill" VerticalOptions="Fill">
-                                <Label FontSize="12" HorizontalOptions="CenterAndExpand" Text="{Binding name, StringFormat='Companie: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding id, StringFormat='Id: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding code, StringFormat='Code: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding name, StringFormat='Name: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding addition, StringFormat='Addition: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding taxNumber, StringFormat='Tax Number: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding taxRate, StringFormat='Tax Rate: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding telephone, StringFormat='Telephone: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding fax, StringFormat='Fax: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding website, StringFormat='Website: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding createdBy, StringFormat='Created By: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding changedOn, StringFormat='Changed On: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding addressID, StringFormat='Address Id: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding email, StringFormat='Email: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding inactive, StringFormat='Inactive: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding address.city.name, StringFormat='Address: {0}'}"/>
-                                <Label FontSize="12" Text="{Binding address.zip, StringFormat='Zip Address: {0}'}"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
 
-            <telerikDataControls:RadListView x:Name="listShowAll" IsVisible="False">
-            <telerikDataControls:RadListView.ItemTemplate>
-                <DataTemplate>
-                    <telerikListView:ListViewTemplateCell>
-                        <telerikListView:ListViewTemplateCell.View>
-                            <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
-                                    <Label FontSize="15" HorizontalOptions="CenterAndExpand" Text="{Binding name, StringFormat='Companie: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding id, StringFormat='Id: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding code, StringFormat='Code: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding name, StringFormat='Name: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding addition, StringFormat='Addition: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding taxNumber, StringFormat='Tax Number: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding taxRate, StringFormat='Tax Rate: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding telephone, StringFormat='Telephone: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding fax, StringFormat='Fax: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding website, StringFormat='Website: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding createdBy, StringFormat='Created By: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding changedOn, StringFormat='Changed On: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding addressID, StringFormat='Address Id: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding email, StringFormat='Email: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding inactive, StringFormat='Inactive: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding address.city.name, StringFormat='Address: {0}'}"/>
-                                    <Label FontSize="13" Text="{Binding address.zip, StringFormat='Zip Address: {0}'}"/>
-                                </StackLayout>
-                        </telerikListView:ListViewTemplateCell.View>
-                    </telerikListView:ListViewTemplateCell>
-                </DataTemplate>
-            </telerikDataControls:RadListView.ItemTemplate>
-            </telerikDataControls:RadListView>  
-        </StackLayout>
+                <telerikDataControls:RadListView x:Name="listShowAll" IsVisible="False">
+                    <telerikDataControls:RadListView.ItemTemplate>
+                        <DataTemplate>
+                            <telerikListView:ListViewTemplateCell>
+                                <telerikListView:ListViewTemplateCell.View>
+                                    <StackLayout Orientation="Vertical" Margin="10,10,10,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                        <Label FontSize="15" TextColor="White" HorizontalOptions="CenterAndExpand" Text="{Binding name, StringFormat='Companie: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding id, StringFormat='Id: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding code, StringFormat='Code: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding name, StringFormat='Name: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding addition, StringFormat='Addition: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding taxNumber, StringFormat='Tax Number: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding taxRate, StringFormat='Tax Rate: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding telephone, StringFormat='Telephone: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding fax, StringFormat='Fax: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding website, StringFormat='Website: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding createdBy, StringFormat='Created By: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding createdOn, StringFormat='Creation Date: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding changedOn, StringFormat='Changed On: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding addressID, StringFormat='Address Id: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding email, StringFormat='Email: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding inactive, StringFormat='Inactive: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding address.city.name, StringFormat='Address: {0}'}"/>
+                                        <Label FontSize="13" TextColor="White" Text="{Binding address.zip, StringFormat='Zip Address: {0}'}"/>
+                                    </StackLayout>
+                                </telerikListView:ListViewTemplateCell.View>
+                            </telerikListView:ListViewTemplateCell>
+                        </DataTemplate>
+                    </telerikDataControls:RadListView.ItemTemplate>
+                </telerikDataControls:RadListView>
+            </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

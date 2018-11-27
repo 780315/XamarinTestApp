@@ -18,30 +18,19 @@ namespace CSmobile
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Login : ContentPage
 	{
-        MainPage main = new MainPage();
+        MainPage main = new MainPage();        
 		public Login ()
 		{
             InitializeComponent();
-            LblClick();            
-        }
-        
-        void LblClick()
-        {
-            Lbl_Click.GestureRecognizers.Add(new TapGestureRecognizer()
-            {
-                Command = new Command(() =>
-                {
-                    DisplayAlert("Password Forgotten", "Password Reset", "OK");
-                })
-            });
-        }
+            LogIn.IsEnabled = false;           
+        }                
 
         async void LogInProcedure(object sender, EventArgs e)
-        {
+        {           
             User user = new User(username.Text, password.Text);
             if (user.CheckInformation())
             {                
-                await App.ApiServices.LoginAsync(user);                
+                await App.ApiServices.LoginAsync(App.ApiServices.serverURL, user);                
                 if (App.ApiServices.loginStatus == true)
                 {                    
                     await DisplayAlert("Login", "Login Successfull", "Ok");
@@ -56,7 +45,26 @@ namespace CSmobile
             {
                 await DisplayAlert("Login", "Login Failed, fill the username and password fields!", "Ok");
             }
-        }        
-       
+        }
+
+        private async void getServers(object sender, TextChangedEventArgs e)
+        {
+            username.Text = e.NewTextValue;
+            string email = username.Text;
+            await App.ApiServices.GetServers(email);
+            if (App.ApiServices.Servers.Count > 0)
+            {
+                serverList.ItemsSource = App.ApiServices.Servers;
+            }          
+        }               
+
+        private void selectedServer(object sender, EventArgs e)
+        {
+            ServerList server = new ServerList();
+            server = serverList.SelectedItem as ServerList;
+            App.ApiServices.serverURL = server.backEndUrl;
+            Application.Current.Properties["serverURL"] = App.ApiServices.serverURL;
+            LogIn.IsEnabled = true;
+        }
     }
 }
