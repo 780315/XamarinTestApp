@@ -92,6 +92,8 @@ namespace CSmobile.Views
             createLayout.IsVisible = false;
             Create.IsVisible = false;
             Edit.IsVisible = false;
+            titleLabel.IsVisible = false;
+            descriptionLabel.IsVisible = false;
         }
 
         private void listview_ItemTapped(object sender, ItemTapEventArgs e)
@@ -99,7 +101,7 @@ namespace CSmobile.Views
             if (list.Count != 0)
             {
                 var value = e.Item;
-                Models.Tasks tasks = (Models.Tasks)value;
+                tasks = (Models.Tasks)value;
                 //int id = tasks.id;
                 list = new List<Models.Tasks>();
                 list.Add(tasks);
@@ -131,9 +133,7 @@ namespace CSmobile.Views
         }
 
         private void EditTask(object sender, EventArgs e)
-        {
-            var value = listview.SelectedItem;
-            tasks = (Models.Tasks)value;
+        {           
             title.Text = tasks.title;
             description.Text = tasks.description;
             datePicker.Date = Convert.ToDateTime(tasks.createdOn);
@@ -146,6 +146,8 @@ namespace CSmobile.Views
             editLbl.IsVisible = true;
             editLbl.Focus();
             scrollView.ScrollToAsync(scrollView, ScrollToPosition.Start, false);
+            titleLabel.IsVisible = true;
+            descriptionLabel.IsVisible = true;
         }
 
         private void GoToMenu(object sender, EventArgs e)
@@ -233,6 +235,8 @@ namespace CSmobile.Views
                 editLbl.IsVisible = true;
                 editLbl.Focus();
                 scrollView.ScrollToAsync(scrollView, ScrollToPosition.Start, false);
+                titleLabel.IsVisible = true;
+                descriptionLabel.IsVisible = true;
             }
             listview.EndItemSwipe();
         }

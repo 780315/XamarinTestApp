@@ -201,7 +201,7 @@ namespace CSmobile.Views
             if (list.Count != 0)
             {
                 var value = e.Item;
-                Ticket ticket = (Ticket)value;
+                ticket = (Ticket)value;
                 list = new List<Ticket>();
                 list.Add(ticket);
                 listview.ItemsSource = null;
@@ -237,12 +237,14 @@ namespace CSmobile.Views
             createLayout.IsVisible = false;
             Create.IsVisible = false;
             Edit.IsVisible = false;
+            titleLabel.IsVisible = false;
+            descriptionLabel.IsVisible = false;
         }
 
         private void EditTicket(object sender, EventArgs e)
         {
-            var value = listview.SelectedItem;
-            ticket = (Ticket)value;
+            //var value = listview.SelectedItem;            
+            //ticket = (Ticket)value;
             title.Text = ticket.title;
             description.Text = ticket.description;
             ShowCreateView();
@@ -257,6 +259,8 @@ namespace CSmobile.Views
             document.IsVisible = true;
             FileImage.IsVisible = true;
             Search.IsVisible = false;
+            titleLabel.IsVisible = true;
+            descriptionLabel.IsVisible = true;
             //docLbl.IsVisible = false;
 
         }

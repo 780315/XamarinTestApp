@@ -151,7 +151,7 @@ namespace CSmobile.Service
             }
         }
 
-        public async Task PutTickets(Ticket ticket) // Ticket creation
+        public async Task PutTickets(Ticket ticket) // Ticket editing
         {
             var uri = new Uri(string.Format(serverURL + Constants.TicketsUrl, string.Empty));
             client = new HttpClient();

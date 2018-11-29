@@ -47,11 +47,15 @@
 
                     <!--<Label Text="Title"
                            Margin="5, 0, 0, 0"/>-->
+                    <Label x:Name="titleLabel" Margin="5,0,0,5" Text="Title" IsVisible="False"
+                           TextColor="White"/>
                     <telerikInput:RadEntry x:Name="title" FontSize="15" WatermarkTextColor="White"
                                        HorizontalOptions="FillAndExpand" WatermarkText="Title" />
 
                     <!--<Label Text="Description"
                            Margin="5, 0, 0, 0"/>-->
+                    <Label x:Name="descriptionLabel" Margin="5,0,0,5" Text="Description" IsVisible="False"
+                           TextColor="White"/>
                     <telerikInput:RadEntry x:Name="description" FontSize="15" WatermarkTextColor="White"
                                        HorizontalOptions="FillAndExpand" WatermarkText="Description"/>
 

@@ -40,7 +40,17 @@ namespace CSmobile.Droid
         {
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-        
+
+        public override void OnBackPressed()
+        {
+            string page = Xamarin.Forms.Application.Current.MainPage.ToString();
+            if (page != "CSmobile.Login")
+            {
+                MainPage main = new MainPage();
+                Xamarin.Forms.Application.Current.MainPage = main;
+            }
+        }
+
     }
 }
 
