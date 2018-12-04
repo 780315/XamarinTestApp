@@ -207,6 +207,7 @@ namespace CSmobile.Views
                 listview.ItemsSource = null;
                 if (list.Count != 0)
                 {
+
                     listShowAll.ItemsSource = list;
                     listShowAll.IsVisible = false;
                     listShowAll.IsVisible = true;
