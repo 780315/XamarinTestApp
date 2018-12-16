@@ -11,7 +11,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Telerik.XamarinForms.Input;
-
+using System.Threading;
 
 namespace CSmobile
 {
@@ -23,6 +23,10 @@ namespace CSmobile
         {
             InitializeComponent();
             LogIn.IsEnabled = false;
+            Lbl_Click.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(() => ForgotPass()),
+            });
         }
 
         async void LogInProcedure(object sender, EventArgs e)
@@ -47,38 +51,40 @@ namespace CSmobile
             }
         }
 
-        private async void getServers(object sender, TextChangedEventArgs e)
-        {
-            username.Text = e.NewTextValue;
-            string email = username.Text;
-            if (email.Length > 5)
-            {
-                await App.ApiServices.GetServers(email);
-                if (App.ApiServices.Servers.Count > 0)
-                {
-                    serverList.ItemsSource = App.ApiServices.Servers;
-                }
-                else
-                {
-                    serverList.ItemsSource = null;
-                }
-                if (serverList.SelectedItem != null)
-                {
-                    LogIn.IsEnabled = false;
-                    try
-                    {
-                        serverList.SelectedIndex = -1;
-                    }
-                    catch (NullReferenceException)
-                    {
+        //private async void getServers(object sender, TextChangedEventArgs e)
+        //{
+        //    username.Text = e.NewTextValue;
+        //    string email = username.Text;
+        //    if (email.Contains("@") && email.Contains(".") && username.IsFocused == false)
+        //    {
+        //        await App.ApiServices.GetServers(email);
+        //        if (App.ApiServices.Servers.Count > 0)
+        //        {
+        //            serverList.ItemsSource = App.ApiServices.Servers;
+        //            serverList.IsVisible = true;
+        //            serverList.Focus();
+        //        }
+        //        else
+        //        {
+        //            serverList.ItemsSource = null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        LogIn.IsEnabled = false;
+        //        try
+        //        {
+        //            serverList.SelectedIndex = -1;
+        //        }
+        //        catch (NullReferenceException)
+        //        {
 
-                    }
-                    serverList.ItemsSource = null;
-                    App.ApiServices.serverURL = string.Empty;
-                    Application.Current.Properties["serverURL"] = App.ApiServices.serverURL;
-                }
-            }
-        }
+        //        }
+        //        serverList.ItemsSource = null;
+        //        App.ApiServices.serverURL = string.Empty;
+        //        Application.Current.Properties["serverURL"] = App.ApiServices.serverURL;
+        //    }
+        //}
 
         private void selectedServer(object sender, EventArgs e)
         {
@@ -91,7 +97,61 @@ namespace CSmobile
                 App.ApiServices.serverURL = server.backEndUrl;
                 Application.Current.Properties["serverURL"] = App.ApiServices.serverURL;
                 LogIn.IsEnabled = true;
+                password.IsVisible = true;
+                showPass.IsVisible = true;
+                password.Focus();
             }
+        }
+
+        private async void Username_Unfocused(object sender, FocusEventArgs e)
+        {            
+            if (username.Text != string.Empty && username.Text.Contains("@") && username.Text.Contains("."))
+            {
+                await App.ApiServices.GetServers(username.Text);
+                if (App.ApiServices.Servers.Count > 0)
+                {
+                    serverList.ItemsSource = App.ApiServices.Servers;
+                    serverList.IsVisible = true;
+                    serverList.Focus();
+                }
+                else
+                {
+                    serverList.ItemsSource = null;
+                }
+            }
+            else
+            {
+                LogIn.IsEnabled = false;
+                try
+                {
+                    serverList.SelectedIndex = -1;
+                }
+                catch (NullReferenceException)
+                {
+
+                }
+                serverList.ItemsSource = null;
+                App.ApiServices.serverURL = string.Empty;
+                Application.Current.Properties["serverURL"] = App.ApiServices.serverURL;
+            }
+        }
+
+        private void ShowPassword(object sender, EventArgs e)
+        {            
+            if (password.IsPassword == true)
+            {
+                password.IsPassword = false;
+            }
+            else
+            {
+                password.IsPassword = true;
+            }
+            
+        }
+
+        private async void ForgotPass()
+        {
+            await DisplayAlert("Password Forgotten", "Method to be implemented", "Ok");
         }
     }
 }

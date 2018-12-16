@@ -57,5 +57,17 @@ namespace CSmobile
             Documents documents = new Documents();
             Application.Current.MainPage = documents;
         }
+
+        private void GoToMenu(object sender, EventArgs e)
+        {
+            FirstPage first = new FirstPage();
+            Application.Current.MainPage = first;
+        }
+
+        private void OpenSide(object sender, EventArgs e)
+        {
+            drawer.IsOpen = true;
+        }
+        
     }
 }

@@ -16,15 +16,9 @@ namespace CSmobile.Views
 		public FirstPage ()
 		{
 			InitializeComponent ();
-            //RotateElement();
+            //RotateElement();           
+            
         }
-        private async Task RotateElement()
-        {
-            while (true)
-            {
-                await img.RotateTo(360, 1500);
-                await img.RotateTo(0, 0);                
-            }
-        }
+       
 	}
 }
